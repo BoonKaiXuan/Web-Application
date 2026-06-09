@@ -19,7 +19,7 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
   // Output data of each row
   while($row = $result->fetch_assoc()) {
-    echo "Name: " . $row["name"]. " - Email: " . $row["email"]. "<br>";
+    echo "Name: " . $row["name"]. " - Email: " . $row["email"]. " - Year Join: " . $row["yearjoin"]. "<br>";
   }
 } else {
   echo "0 results";
