@@ -4,31 +4,37 @@ $username = "aliceboon";
 $password = "GFn/4dHUq(39b_d@";
 $dbname = "aliceboon";
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-$sql = "SELECT * FROM student WHERE email = ? AND password = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("ss", $email, $userPassword);
-$stmt->execute();
+  // Get user input from the form
+  $userEmail = $_POST['email'];
+  $userPassword = $_POST['password'];
 
-$result = $stmt->get_result();
+  // Create connection
+  $conn = new mysqli($servername, $username, $password, $dbname);
 
-if ($result->num_rows > 0) {
+  // Check connection
+  if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+  }
+
+  //Execute sql query
+  $sql = "SELECT email, password FROM student WHERE email = '$userEmail' AND password = '$userPassword'";
+
+  $result = $conn->query($sql);
+
+  //Process the result set
+  if ($result->num_rows > 0) {
     echo "User Found";
-} else {
+    
+  } else {
     echo "User Not Found";
+  }
+
+  $conn->close();
 }
-
-$stmt->close();
-$conn->close();
 ?>
-
 
 
 
@@ -67,7 +73,6 @@ $conn->close();
       <input type="submit">
     </form>
   </div>
-  
 
 </body>
 </html>
