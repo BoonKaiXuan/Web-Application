@@ -26,7 +26,8 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 
   //Process the result set
   if ($result->num_rows > 0) {
-    echo "Login Successful";
+    //echo "Login Successful";
+    header("Location:booklist.php");
   } else {
     echo "User Not Found";
   }
