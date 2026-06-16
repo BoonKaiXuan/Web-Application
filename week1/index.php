@@ -5,8 +5,8 @@ $password = "GFn/4dHUq(39b_d@";
 $dbname = "aliceboon";
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+//if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if (isset($_POST["email"]) && isset($_POST["password"])) {
   // Get user input from the form
   $userEmail = $_POST['email'];
   $userPassword = $_POST['password'];
@@ -20,14 +20,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   //Execute sql query
-  $sql = "SELECT email, password FROM student WHERE email = '$userEmail' AND password = '$userPassword'";
+  $sql = "SELECT * FROM student WHERE email = '$userEmail' AND password = '$userPassword'";
 
   $result = $conn->query($sql);
 
   //Process the result set
   if ($result->num_rows > 0) {
-    echo "User Found";
-    
+    echo "Login Successful";
   } else {
     echo "User Not Found";
   }
@@ -37,26 +36,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
 
   <style>
-    *{
+    * {
       font-size: 20px;
     }
 
-    body{
+    body {
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
-    
   </style>
 
 </head>
@@ -75,4 +73,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
 </body>
+
 </html>

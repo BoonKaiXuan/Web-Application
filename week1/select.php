@@ -18,12 +18,11 @@ $result = $conn->query($sql);
 // Process the result set
 if ($result->num_rows > 0) {
   // Output data of each row
-  while($row = $result->fetch_assoc()) {
-    echo "Name: " . $row["name"]. " - Email: " . $row["email"]. " - Year Join: " . $row["yearjoin"]. "<br>";
+  while ($row = $result->fetch_assoc()) {
+    echo "Name: " . $row["name"] . " - Email: " . $row["email"] . " - Year Join: " . $row["yearjoin"] . "<br>";
   }
 } else {
   echo "0 results";
 }
 
 $conn->close();
-?>
