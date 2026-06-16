@@ -18,7 +18,7 @@ if ($conn->connect_error) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to Alice Shop</title>
+    <title>Welcome to Alice's Shop</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=dashboard" />
     <script src="https://kit.fontawesome.com/1619a0e9db.js" crossorigin="anonymous"></script>
 </head>
@@ -32,15 +32,11 @@ if ($conn->connect_error) {
     }
 
     body {
-        margin: 20px 60px 20px 240px;
+        margin: 20px 30px;
         font-family: "Poppins", sans-serif;
         font-size: 16px;
         font-weight: 300;
         background-color: #fffbfb;
-    }
-
-    section {
-        padding: 30px;
     }
 
     h1 {
@@ -49,9 +45,15 @@ if ($conn->connect_error) {
         font-weight: 700;
     }
 
-    .max-width {
+    .container {
         max-width: 1520px;
         margin: auto;
+        display: flex;
+        gap: 10px;
+    }
+
+    .main {
+        padding: 30px;
     }
 
     .sidebar {
@@ -61,9 +63,6 @@ if ($conn->connect_error) {
         color: #E13F7C;
         font-weight: 600;
         padding: 20px 10px;
-        position: fixed;
-        top: 20px;
-        left: 30px;
         border-radius: 10px;
     }
 
@@ -86,9 +85,11 @@ if ($conn->connect_error) {
 
     .sidebar_menu {
         padding: 20px 28px;
+        margin: 10px 0px;
     }
 
-    .sidebar_menu:hover {
+    .sidebar_menu:hover,
+    .sidebar_menu_active {
         cursor: pointer;
         background-color: #E13F7C;
         border-radius: 5px;
@@ -96,7 +97,9 @@ if ($conn->connect_error) {
 
     .sidebar_menu:hover,
     .sidebar_menu:hover i,
-    .sidebar_menu:hover span {
+    .sidebar_menu:hover span,
+    .sidebar_menu_active,
+    .sidebar>div span {
         color: #FFEF9F;
     }
 
@@ -108,12 +111,12 @@ if ($conn->connect_error) {
 </style>
 
 <body>
-    <div class="max-width">
+    <div class="container">
         <div class="sidebar">
             <div class="sidebar_header">
-                Alice Shop
+                Alice's Shop
             </div>
-            <div class="sidebar_menu vert-align">
+            <div class="sidebar_menu sidebar_menu_active vert-align">
                 <span class="material-symbols-outlined">
                     dashboard
                 </span>Dashboard
@@ -136,9 +139,9 @@ if ($conn->connect_error) {
             </div>
         </div>
 
-        <section>
+        <div class="main">
             <h1> Welcome</h1>
-        </section>
+        </div>
 
     </div>
 </body>

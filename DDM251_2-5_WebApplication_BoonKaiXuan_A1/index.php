@@ -21,10 +21,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST['username']) || empty($_POST['password'])) {
         $error_message = "*Please enter your Username and Password.";
     } else {
-        $username = $_POST['username'];
+        $user_name = $_POST['username'];
         $password = $_POST['password'];
 
-        $sql = "SELECT * FROM customers WHERE username='$username'";
+        $sql = "SELECT * FROM customers WHERE username='$user_name'";
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
