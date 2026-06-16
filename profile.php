@@ -18,9 +18,8 @@ if ($conn->connect_error) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Week2 - Booklist</title>
+    <title>Week2 - Profile</title>
 </head>
-
 <style>
     table {
         border-collapse: collapse;
@@ -34,40 +33,31 @@ if ($conn->connect_error) {
 </style>
 
 <body>
-    <table width="1100">
+    <table>
         <tr>
-            <th>ISBN</th>
-            <th width="300">Title</th>
-            <th width="200">Author</th>
-            <th>Description</th>
-            <th>Price(RM)</th>
+            <th width="100">Name</th>
+            <th width="250">Email</th>
+            <th width="150">Year Joined</th>
         </tr>
 
         <?php
-        $query = "SELECT * FROM booklist";
-
+        $query = "SELECT * FROM student";
         $result = mysqli_query($conn, $query);
 
         while ($row = mysqli_fetch_assoc($result)) {
         ?>
-
             <tr>
-                <td><?php echo $row['ISBN']; ?></td>
-                <td><?php echo $row['title']; ?></td>
-                <td><?php echo $row['author']; ?></td>
-                <td><?php echo $row['description']; ?></td>
-                <td><?php echo $row['price']; ?></td>
-                <td><input type='button' value='Edit'></td>
-                <td><button>Delete</button></td>
+                <td><?php echo $row['name']; ?></td>
+                <td><?php echo $row['email']; ?></td>
+                <td><?php echo $row['yearjoin']; ?></td>
+                <td width="100"><input type='button' value='Edit'></tds>
             </tr>
         <?php
         }
         mysqli_close($conn);
         ?>
 
-        <a href=""><input type="submit" value="Profile"></a>
-        <a href=""><input type="submit" value="AddBook"></a>
-        <a href=""><input type="submit" value="LogOut"></a>
+        <a href=""><button>Back</button></a>
 
     </table>
 </body>
