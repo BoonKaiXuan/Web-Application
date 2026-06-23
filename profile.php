@@ -10,6 +10,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+session_start();
+$email = $_SESSION["email"];
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +43,7 @@ if ($conn->connect_error) {
         </tr>
 
         <?php
-        $query = "SELECT * FROM student";
+        $query = "SELECT * FROM student WHERE email='$email'";
         $result = mysqli_query($conn, $query);
 
         while ($row = mysqli_fetch_assoc($result)) {
@@ -57,7 +59,7 @@ if ($conn->connect_error) {
         mysqli_close($conn);
         ?>
 
-        <a href=""><button>Back</button></a>
+        <a href="booklist.php"><button>Back</button></a>
 
     </table>
 </body>

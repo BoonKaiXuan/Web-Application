@@ -4,7 +4,6 @@ $username = "aliceboon";
 $password = "GFn/4dHUq(39b_d@";
 $dbname = "aliceboon";
 
-
 //if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if (isset($_POST["email"]) && isset($_POST["password"])) {
   // Get user input from the form
@@ -19,6 +18,8 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     die("Connection failed: " . $conn->connect_error);
   }
 
+  session_start();
+
   //Execute sql query
   $sql = "SELECT * FROM student WHERE email = '$userEmail' AND password = '$userPassword'";
 
@@ -27,6 +28,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
   //Process the result set
   if ($result->num_rows > 0) {
     //echo "Login Successful";
+    $_SESSION['email'] = $_POST['email'];
     header("Location:booklist.php");
   } else {
     echo "User Not Found";
