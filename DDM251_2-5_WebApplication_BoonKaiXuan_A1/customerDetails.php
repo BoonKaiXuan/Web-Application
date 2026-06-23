@@ -18,7 +18,7 @@ if ($conn->connect_error) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer List - Alice's Shop</title>
+    <title>Customer Details - Alice's Shop</title>
 </head>
 
 <style>
@@ -62,13 +62,15 @@ if ($conn->connect_error) {
     </div>
 
     <div>
-        <table width="1100">
+        <table width="1400">
             <tr>
                 <th>Customer ID</th>
                 <th width="200">Username</th>
                 <th width="200">First Name</th>
                 <th width="200">Last Name</th>
                 <th width="300">Email</th>
+                <th width="150">Password</th>
+                <th width="200">Phone No.</th>
             </tr>
 
             <?php
@@ -85,20 +87,19 @@ if ($conn->connect_error) {
                     <td><?php echo $row['firstName']; ?></td>
                     <td><?php echo $row['lastName']; ?></td>
                     <td><?php echo $row['customerEmail']; ?></td>
-                    <td>
-                        <a href="customerDetails.php">
-                            <input type='button' value='Details'>
-                        </a>
-                    </td>
-                    <td><input type='button' value='Edit'></td>
-                    <td><button>Delete</button></td>
+                    <td><?php echo $row['password']; ?></td>
+                    <td><?php echo $row['customerPhoneNo']; ?></td>
+
                 </tr>
             <?php
             }
             mysqli_close($conn);
             ?>
 
-            <a href="addCustomer.php"><input type="submit" value="AddCustomer"></a>
+            <button>
+                <a class="link" href="customer.php">Back to Customer Listing</a>
+            </button>
+            <input type='button' value='Edit'>
 
         </table>
     </div>
