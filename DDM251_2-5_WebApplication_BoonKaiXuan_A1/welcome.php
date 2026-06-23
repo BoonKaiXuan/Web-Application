@@ -39,14 +39,18 @@ if ($conn->connect_error) {
             <div class="sidebar_header">
                 Alice's Shop
             </div>
-            <div class="sidebar_menu sidebar_menu_active vert-align">
-                <span class="material-symbols-outlined">
-                    dashboard
-                </span>Dashboard
+            <div class="sidebar_menu_active">
+                <a class="sidebar_menu vert-align" href="welcome.php">
+                    <span class="material-symbols-outlined">
+                        dashboard
+                    </span>Dashboard
+                </a>
             </div>
-            <div class="sidebar_menu">
-                <i class="fa-solid fa-user"></i>
-                Customers
+            <div>
+                <a class="sidebar_menu" href="customer.php">
+                    <i class="fa-solid fa-user"></i>
+                    Customers
+                </a>
             </div>
             <div class="sidebar_menu">
                 <i class="fa-solid fa-box-open"></i>

@@ -57,6 +57,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="css/common.css">
 </head>
 <style>
+    body {
+        margin: 60px;
+    }
+
     #login {
         background-color: #FFEF9F;
         max-width: 500px;
@@ -129,7 +133,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
 
             <div>
-                <input class="btn" type="submit" value="Sign In">
+                <input class="btn fullwidth" type="submit" value="Sign In">
             </div>
 
         </form>

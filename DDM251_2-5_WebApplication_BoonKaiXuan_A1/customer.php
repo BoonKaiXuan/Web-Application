@@ -34,6 +34,10 @@ if ($conn->connect_error) {
     td {
         border: 1px solid black;
     }
+
+    .sidebar_menu_active>a i {
+        color: #FFEF9F;
+    }
 </style>
 
 <body>
@@ -42,14 +46,18 @@ if ($conn->connect_error) {
             <div class="sidebar_header">
                 Alice's Shop
             </div>
-            <div class="sidebar_menu vert-align">
-                <span class="material-symbols-outlined">
-                    dashboard
-                </span>Dashboard
+            <div>
+                <a class="sidebar_menu vert-align" href="welcome.php">
+                    <span class="material-symbols-outlined">
+                        dashboard
+                    </span>Dashboard
+                </a>
             </div>
-            <div class="sidebar_menu sidebar_menu_active">
-                <i class="fa-solid fa-user"></i>
-                Customers
+            <div class="sidebar_menu_active">
+                <a class="sidebar_menu" href="customer.php">
+                    <i class="fa-solid fa-user"></i>
+                    Customers
+                </a>
             </div>
             <div class="sidebar_menu">
                 <i class="fa-solid fa-box-open"></i>
@@ -66,10 +74,10 @@ if ($conn->connect_error) {
         </div>
 
         <div class="main">
-            <table width="1100">
+            <table width="1200">
                 <tr>
-                    <th>Customer ID</th>
-                    <th width="200">Username</th>
+                    <th width="100">Customer ID</th>
+                    <th width="150">Username</th>
                     <th width="200">First Name</th>
                     <th width="200">Last Name</th>
                     <th width="300">Email</th>
@@ -89,20 +97,20 @@ if ($conn->connect_error) {
                         <td><?php echo $row['firstName']; ?></td>
                         <td><?php echo $row['lastName']; ?></td>
                         <td><?php echo $row['customerEmail']; ?></td>
-                        <td>
-                            <a href="customerDetails.php">
-                                <input type='button' value='Details'>
+                        <td class="row-flex">
+                            <a class="btn btn_sub btn_green" href="customerDetails.php"> Details
                             </a>
+                            <input class="btn btn_sub btn_blue" type='button' value='Edit'>
+                            <button class="btn btn_sub btn_red">Delete</button>
                         </td>
-                        <td><input type='button' value='Edit'></td>
-                        <td><button>Delete</button></td>
+
                     </tr>
                 <?php
                 }
                 mysqli_close($conn);
                 ?>
 
-                <a href="addCustomer.php"><input class="btn" h type="submit" value="AddCustomer"></a>
+                <a href="addCustomer.php"><input class="btn" h type="submit" value="Create New Customer"></a>
 
             </table>
         </div>
