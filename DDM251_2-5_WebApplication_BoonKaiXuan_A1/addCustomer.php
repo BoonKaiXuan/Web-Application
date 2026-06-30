@@ -47,9 +47,11 @@
                     Customers
                 </a>
             </div>
-            <div class="sidebar_menu">
-                <i class="fa-solid fa-box-open"></i>
-                Products
+            <div>
+                <a class="sidebar_menu" href="products.php">
+                    <i class="fa-solid fa-box-open"></i>
+                    Products
+                </a>
             </div>
             <div class="sidebar_menu">
                 <i class="fa-solid fa-cart-shopping"></i>

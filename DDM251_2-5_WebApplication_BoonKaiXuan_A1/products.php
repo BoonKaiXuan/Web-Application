@@ -18,7 +18,7 @@ if ($conn->connect_error) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer List - Alice's Shop</title>
+    <title>Product List - Alice's Shop</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=dashboard" />
     <script src="https://kit.fontawesome.com/1619a0e9db.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/common.css">
@@ -53,13 +53,13 @@ if ($conn->connect_error) {
                     </span>Dashboard
                 </a>
             </div>
-            <div class="sidebar_menu_active">
+            <div>
                 <a class="sidebar_menu" href="customer.php">
                     <i class="fa-solid fa-user"></i>
                     Customers
                 </a>
             </div>
-            <div>
+            <div class="sidebar_menu_active">
                 <a class="sidebar_menu" href="products.php">
                     <i class="fa-solid fa-box-open"></i>
                     Products
@@ -76,17 +76,16 @@ if ($conn->connect_error) {
         </div>
 
         <div class="main">
-            <table width="1200">
+            <table width="1000">
                 <tr>
-                    <th width="100">Customer ID</th>
-                    <th width="150">Username</th>
-                    <th width="200">First Name</th>
-                    <th width="200">Last Name</th>
-                    <th width="300">Email</th>
+                    <th width="100">Product ID</th>
+                    <th width="200">Product Name</th>
+                    <th width="400">Description</th>
+                    <th width="100">Price (RM)</th>
                 </tr>
 
                 <?php
-                $query = "SELECT * FROM customers";
+                $query = "SELECT * FROM products";
 
                 $result = mysqli_query($conn, $query);
 
@@ -94,13 +93,13 @@ if ($conn->connect_error) {
                 ?>
 
                     <tr>
-                        <td><?php echo $row['customerID']; ?></td>
-                        <td><?php echo $row['username']; ?></td>
-                        <td><?php echo $row['firstName']; ?></td>
-                        <td><?php echo $row['lastName']; ?></td>
-                        <td><?php echo $row['customerEmail']; ?></td>
+                        <td><?php echo $row['prodID']; ?></td>
+                        <td><?php echo $row['prodName']; ?></td>
+                        <td><?php echo $row['description']; ?></td>
+                        <td><?php echo $row['price']; ?></td>
+
                         <td class="row-flex">
-                            <a class="btn btn_sub btn_green" href="customerDetails.php"> Details
+                            <a class="btn btn_sub btn_green" href=""> Details
                             </a>
                             <input class="btn btn_sub btn_blue" type='button' value='Edit'>
                             <button class="btn btn_sub btn_red">Delete</button>
@@ -112,7 +111,7 @@ if ($conn->connect_error) {
                 mysqli_close($conn);
                 ?>
 
-                <a href="addCustomer.php"><input class="btn" h type="submit" value="Create New Customer"></a>
+                <a href="addProduct.php"><input class="btn" h type="submit" value="Add New Product"></a>
 
             </table>
         </div>
