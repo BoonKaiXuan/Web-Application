@@ -52,7 +52,11 @@ $email = $_SESSION["email"];
                 <td><?php echo $row['name']; ?></td>
                 <td><?php echo $row['email']; ?></td>
                 <td><?php echo $row['yearjoin']; ?></td>
-                <td width="100"><input type='button' value='Edit'></tds>
+                <td width="100">
+                    <a href="editProfile.php">
+                        <input type='button' value='Edit'>
+                    </a>
+                </td>
             </tr>
         <?php
         }

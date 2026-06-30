@@ -13,11 +13,18 @@ if (!$conn) {
 
 session_start();
 
+$name = $_POST["name"];
+$password = $_POST["password"];
+$yearjoin = $_POST["yearjoin"];
+
 // SQL to update a record
-$sql = "UPDATE student SET name='" . $_POST["name"] . "', password='" . $_POST["password"] . "', confirmPassword='" . $_POST["confirmPassword"] . "' WHERE email='" . $_SESSION["email"] . "'";
+$sql = "UPDATE student SET name='$name', password='$password', yearjoin='$yearjoin' WHERE email='" . $_SESSION["email"] . "'";
+/*
+$sql = "UPDATE student SET name='" . $_POST["name"] . "', password='" . $_POST["password"] . "', yearjoin='" . $_POST["yearjoin"] . "' WHERE email='" . $_SESSION["email"] . "'";
+*/
 
 if (mysqli_query($conn, $sql)) {
-    echo "Record updated successfully";
+    header("Location:profile.php");
 } else {
     echo "Error updating record: " . mysqli_error($conn);
 }

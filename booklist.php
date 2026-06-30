@@ -57,7 +57,11 @@ if ($conn->connect_error) {
                 <td><?php echo $row['author']; ?></td>
                 <td><?php echo $row['description']; ?></td>
                 <td><?php echo $row['price']; ?></td>
-                <td><input type='button' value='Edit'></td>
+                <td>
+                    <a href="editBook.php?isbn=<?php echo $row['ISBN']; ?>">
+                        <input type='button' value='Edit'>
+                    </a>
+                </td>
                 <td><button>Delete</button></td>
             </tr>
         <?php

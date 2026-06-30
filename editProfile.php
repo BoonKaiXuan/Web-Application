@@ -36,8 +36,8 @@
 
         <tr>
             <form action="runEditProfile.php" method="POST">
-                <td><input type="text" name="password"></td>
-                <td><input type="text" name="confirmPassword"></td>
+                <td><input type="password" name="password"></td>
+                <td><input type="password" name="confirmPassword"></td>
                 <td><input type="text" name="name"></td>
                 <td><input type="text" name="yearjoin"></td>
                 <td><input type="submit" value="Submit"></td>
