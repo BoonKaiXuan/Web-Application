@@ -9,7 +9,11 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+$cusID = $_GET['customerID'];
 
+$sql = "SELECT * FROM customers WHERE customerID='$cusID'";
+$result = mysqli_query($conn, $sql);
+$customer = mysqli_fetch_assoc($result);
 ?>
 
 <!DOCTYPE html>
@@ -25,14 +29,16 @@ if ($conn->connect_error) {
 </head>
 
 <style>
-    table {
-        border-collapse: collapse;
+    th {
+        text-align: left;
     }
 
-    table,
-    th,
-    td {
-        border: 1px solid black;
+    tr {
+        height: 50px;
+    }
+
+    table input {
+        width: 100%;
     }
 
     .sidebar_menu_active>a i {
@@ -77,46 +83,44 @@ if ($conn->connect_error) {
 
     <div class="main">
         <h1>Customer Details</h1>
-        <table width="1400">
+        <table width="100%">
             <tr>
                 <th>Customer ID</th>
-                <th width="200">Username</th>
-                <th width="200">First Name</th>
-                <th width="200">Last Name</th>
-                <th width="300">Email</th>
-                <th width="150">Password</th>
-                <th width="200">Phone No.</th>
+                <td><?php echo $customer['customerID']; ?></td>
             </tr>
-
-            <?php
-            $query = "SELECT * FROM customers";
-
-            $result = mysqli_query($conn, $query);
-
-            while ($row = mysqli_fetch_assoc($result)) {
-            ?>
-
-                <tr>
-                    <td><?php echo $row['customerID']; ?></td>
-                    <td><?php echo $row['username']; ?></td>
-                    <td><?php echo $row['firstName']; ?></td>
-                    <td><?php echo $row['lastName']; ?></td>
-                    <td><?php echo $row['customerEmail']; ?></td>
-                    <td><?php echo $row['password']; ?></td>
-                    <td><?php echo $row['customerPhoneNo']; ?></td>
-
-                </tr>
-            <?php
-            }
-            mysqli_close($conn);
-            ?>
+            <tr>
+                <th width="200">Username</th>
+                <td><?php echo $customer['username']; ?></td>
+            </tr>
+            <tr>
+                <th width="200">First Name</th>
+                <td><?php echo $customer['firstName']; ?></td>
+            </tr>
+            <tr>
+                <th width="200">Last Name</th>
+                <td><?php echo $customer['lastName']; ?></td>
+            </tr>
+            <tr>
+                <th width="200">Email</th>
+                <td><?php echo $customer['customerEmail']; ?></td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td><?php echo $customer['password']; ?></td>
+            </tr>
+            <tr>
+                <th>Phone No.</th>
+                <td><?php echo $customer['customerPhoneNo']; ?></td>
+            </tr>
 
         </table>
         <div class="row-flex">
             <a class="btn btn_blue" href="customer.php">
                 Back to Customer Listing
             </a>
-            <input class="btn" type='button' value='Edit'>
+            <a class="btn" href="editCustomer.php?customerID=<?php echo $customer['customerID']; ?>">
+                Edit
+            </a>
         </div>
     </div>
 

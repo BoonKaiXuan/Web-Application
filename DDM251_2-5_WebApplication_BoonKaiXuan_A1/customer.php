@@ -100,9 +100,12 @@ if ($conn->connect_error) {
                         <td><?php echo $row['lastName']; ?></td>
                         <td><?php echo $row['customerEmail']; ?></td>
                         <td class="row-flex">
-                            <a class="btn btn_sub btn_green" href="customerDetails.php"> Details
+                            <a class="btn btn_sub btn_green" href="customerDetails.php?customerID=<?php echo $row['customerID']; ?>">
+                                Details
                             </a>
-                            <input class="btn btn_sub btn_blue" type='button' value='Edit'>
+                            <a class="btn btn_sub btn_blue" href="editCustomer.php?customerID=<?php echo $row['customerID']; ?>">
+                                Edit
+                            </a>
                             <button class="btn btn_sub btn_red">Delete</button>
                         </td>
 

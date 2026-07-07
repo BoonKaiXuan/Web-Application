@@ -14,6 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("Connection failed: " . $conn->connect_error);
     }
 
+    session_start();
+
     if (!empty($_POST['username'])) {
         $keep_username = htmlspecialchars($_POST['username']);
     }
@@ -32,6 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $user = $result->fetch_assoc();
 
             if ($password == $user['password']) {
+                $_SESSION['username'] = $_POST['username'];
                 header("Location:welcome.php");
             } else {
                 $error_message = "*Invalid password. Please try again.";
