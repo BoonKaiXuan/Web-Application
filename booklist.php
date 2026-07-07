@@ -10,6 +10,14 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+session_start();
+// if users not log in yet they will be redirected to login page
+
+if (!isset($_SESSION["email"])) { //not equal to null
+
+    header("Location:index.php");
+}
+
 ?>
 
 <!DOCTYPE html>

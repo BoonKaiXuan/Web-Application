@@ -1,3 +1,5 @@
+<!--no need do php connection, cuz we're just getting the message glued to the url, no need to get data from the table-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,13 +37,22 @@
         </tr>
 
         <tr>
+
+            <?php
+            if (isset($_GET['error_message'])) {
+                echo '<p style="color: red;">' . $_GET['error_message'] . '</p>';
+            }
+            ?>
+
             <form action="runEditProfile.php" method="POST">
-                <td><input type="password" name="password"></td>
-                <td><input type="password" name="confirmPassword"></td>
+
+                <td><input type="password" name="password" minlength="6"></td>
+                <td><input type="password" name="confirmPassword" minlength="6"></td>
                 <td><input type="text" name="name"></td>
-                <td><input type="text" name="yearjoin"></td>
+                <td><input type="text" name="yearjoin" maxlength="4"></td>
                 <td><input type="submit" value="Submit"></td>
             </form>
+
         </tr>
     </table>
 
