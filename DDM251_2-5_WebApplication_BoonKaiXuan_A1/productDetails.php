@@ -9,7 +9,11 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+$prodID = $_GET['prodID'];
 
+$sql = "SELECT * FROM products WHERE prodID='$prodID'";
+$result = mysqli_query($conn, $sql);
+$product = mysqli_fetch_assoc($result);
 ?>
 
 <!DOCTYPE html>
@@ -18,29 +22,27 @@ if ($conn->connect_error) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product List - Alice's Shop</title>
+    <title>Product Details - Alice's Shop</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=dashboard" />
     <script src="https://kit.fontawesome.com/1619a0e9db.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/common.css">
 </head>
 
 <style>
-    table {
-        border-collapse: collapse;
+    th {
+        text-align: left;
     }
 
-    table,
-    th,
-    td {
-        border: 1px solid black;
+    tr {
+        height: 50px;
+    }
+
+    table input {
+        width: 100%;
     }
 
     .sidebar_menu_active>a i {
         color: #FFEF9F;
-    }
-
-    .no-border {
-        border: none;
     }
 </style>
 
@@ -78,52 +80,35 @@ if ($conn->connect_error) {
                 Sign Out
             </div>
         </div>
-
         <div class="main">
-            <table width="1200">
+            <h1>Product Details</h1>
+            <table width="100%">
                 <tr>
-                    <th width="100">Product ID</th>
+                    <th>Product ID</th>
+                    <td><?php echo $product['prodID']; ?></td>
+                </tr>
+                <tr>
                     <th width="200">Product Name</th>
-                    <th width="600">Description</th>
-                    <th width="100">Price (RM)</th>
-                    <th colspan="3"></th>
+                    <td><?php echo $product['prodName']; ?></td>
+                </tr>
+                <tr>
+                    <th width="200">Description</th>
+                    <td><?php echo $product['description']; ?></td>
+                </tr>
+                <tr>
+                    <th>Price (RM)</th>
+                    <td><?php echo $product['price']; ?></td>
                 </tr>
 
-                <?php
-                $query = "SELECT * FROM products";
-
-                $result = mysqli_query($conn, $query);
-
-                while ($row = mysqli_fetch_assoc($result)) {
-                ?>
-
-                    <tr>
-                        <td><?php echo $row['prodID']; ?></td>
-                        <td><?php echo $row['prodName']; ?></td>
-                        <td><?php echo $row['description']; ?></td>
-                        <td><?php echo $row['price']; ?></td>
-                        <td>
-                            <div class="row-flex">
-                                <a class="btn btn_sub btn_green" href="productDetails.php?prodID=<?php echo $row['prodID']; ?>">
-                                    Details
-                                </a>
-                                <a class="btn btn_sub btn_blue" href="editProduct.php?prodID=<?php echo $row['prodID']; ?>">
-                                    Edit
-                                </a>
-                                <button class="btn btn_sub btn_red">Delete</button>
-                            </div>
-                        </td>
-
-
-                    </tr>
-                <?php
-                }
-                mysqli_close($conn);
-                ?>
-
-                <a href="addProduct.php"><input class="btn" h type="submit" value="Add New Product"></a>
-
             </table>
+            <div class="row-flex">
+                <a class="btn btn_blue" href="products.php">
+                    Back to Product Listing
+                </a>
+                <a class="btn" href="editProduct.php?prodID=<?php echo $product['prodID']; ?>">
+                    Edit
+                </a>
+            </div>
         </div>
     </div>
 

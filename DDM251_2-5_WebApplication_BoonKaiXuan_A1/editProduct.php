@@ -10,6 +10,11 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+$prodID = $_GET['prodID'];
+
+$sql = "SELECT * FROM products WHERE prodID='$prodID'";
+$result = mysqli_query($conn, $sql);
+$product = mysqli_fetch_assoc($result);
 ?>
 
 <!DOCTYPE html>
@@ -18,29 +23,32 @@ if ($conn->connect_error) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product List - Alice's Shop</title>
+    <title>Edit Customer - Alices Shop</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=dashboard" />
     <script src="https://kit.fontawesome.com/1619a0e9db.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/common.css">
-</head>
 
+</head>
 <style>
-    table {
-        border-collapse: collapse;
+    th {
+        text-align: left;
     }
 
-    table,
-    th,
-    td {
-        border: 1px solid black;
+    tr {
+        height: 50px;
+    }
+
+    table input {
+        width: 100%;
     }
 
     .sidebar_menu_active>a i {
         color: #FFEF9F;
     }
 
-    .no-border {
-        border: none;
+    .error {
+        color: red;
+        font-weight: 600;
     }
 </style>
 
@@ -80,50 +88,48 @@ if ($conn->connect_error) {
         </div>
 
         <div class="main">
-            <table width="1200">
-                <tr>
-                    <th width="100">Product ID</th>
-                    <th width="200">Product Name</th>
-                    <th width="600">Description</th>
-                    <th width="100">Price (RM)</th>
-                    <th colspan="3"></th>
-                </tr>
+            <h1>Edit Product</h1>
 
-                <?php
-                $query = "SELECT * FROM products";
+            <?php
+            if (isset($_GET['empty'])) {
+                echo '<p class="error">' . $empty = $_GET['empty'] . "</p>";
+            }
 
-                $result = mysqli_query($conn, $query);
+            if (isset($_GET['priceDigit'])) {
+                echo '<p class="error">' . $priceDigit = $_GET['priceDigit'] . "</p>";
+            }
 
-                while ($row = mysqli_fetch_assoc($result)) {
-                ?>
+            ?>
 
+            <form action="runEditProduct.php" method="POST">
+                <table width="100%">
                     <tr>
-                        <td><?php echo $row['prodID']; ?></td>
-                        <td><?php echo $row['prodName']; ?></td>
-                        <td><?php echo $row['description']; ?></td>
-                        <td><?php echo $row['price']; ?></td>
-                        <td>
-                            <div class="row-flex">
-                                <a class="btn btn_sub btn_green" href="productDetails.php?prodID=<?php echo $row['prodID']; ?>">
-                                    Details
-                                </a>
-                                <a class="btn btn_sub btn_blue" href="editProduct.php?prodID=<?php echo $row['prodID']; ?>">
-                                    Edit
-                                </a>
-                                <button class="btn btn_sub btn_red">Delete</button>
-                            </div>
-                        </td>
-
-
+                        <th>Product ID:</th>
+                        <td><input name="prodID" value="<?php echo $product['prodID']; ?>" readonly></td>
                     </tr>
-                <?php
-                }
-                mysqli_close($conn);
-                ?>
+                    <tr>
+                        <th>Product Name:</th>
+                        <td><input type="text" name="prodName"></td>
+                    </tr>
+                    <tr>
+                        <th>Description:</th>
+                        <td><textarea rows="3" cols="50" name="description"></textarea>
+                    </tr>
+                    <tr>
+                        <th width="200">Price (RM):</th>
+                        <td><input name="price"></td>
+                    </tr>
 
-                <a href="addProduct.php"><input class="btn" h type="submit" value="Add New Product"></a>
+                </table>
 
-            </table>
+                <div class="row-flex gap-20">
+                    <a class="btn btn_blue" href="products.php">
+                        Back to Product Listing
+                    </a>
+                    <input class="btn" type="submit" value="Update Product">
+                </div>
+            </form>
+
         </div>
     </div>
 
