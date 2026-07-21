@@ -1,55 +1,14 @@
-<?php
-$servername = "localhost";
-$username = "tealive";
-$password = "5spY@)Hmeg]XrKeS";
-$dbname = "tealive";
-
-//if ($_SERVER["REQUEST_METHOD"] == "POST") {
-if (isset($_POST["email"]) && isset($_POST["password"])) {
-    // Get user input from the form
-    $userEmail = $_POST['email'];
-    $userPassword = $_POST['password'];
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    session_start();
-
-    //Execute sql query
-    $sql = "SELECT * FROM student WHERE email = '$userEmail' AND password = '$userPassword'";
-
-    $result = $conn->query($sql);
-
-    //Process the result set
-    if ($result->num_rows > 0) {
-        //echo "Login Successful";
-        $_SESSION['email'] = $_POST['email'];
-        header("Location:booklist.php");
-    } else {
-        echo "User Not Found";
-    }
-
-    $conn->close();
-}
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register/Login - Tealive New Product Launch</title>
+    <title>Register - Tealive New Product Launch</title>
 
     <style>
         * {
-            font-size: 20px;
+            font-size: 16px;
         }
 
         body {
@@ -70,14 +29,13 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 
         <div>
             <form taget="_self" method="POST">
-                <!--
-                <div class="error-msg">
+
+                <!--         <div class="error-msg">
                     <?php
                     echo $error_message;
                     ?>
-                </div>
--->
-                <div class="login_info">
+                </div> -->
+                <div class="register_info">
                     <div>
                         <label>First Name:</label>
                         <input type="text" name="firstName">
@@ -110,11 +68,11 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                 </div>
 
                 <div>
-                    <a href="">Join the Hunt & Claim Perk</a>
+                    <input type="submit" value="Create an Account">
                 </div>
 
             </form>
-            <a href="">
+            <a href="login.php">
                 Already a Tealive App user? Sign in here.
             </a>
         </div>

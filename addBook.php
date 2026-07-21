@@ -22,7 +22,12 @@
     <button>
         <a class="link" href="booklist.php">Back</a>
     </button>
-
+    <?php
+    if (isset($_GET['error_message'])) {
+        $error_message = $_GET['error_message'];
+        echo "<p style='color: red;'>$error_message</p>";
+    }
+    ?>
     <table width="600">
         <tr>
             <th>ISBN</th>

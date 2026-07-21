@@ -21,7 +21,19 @@ $price = $_POST["price"];
 $sql = "INSERT INTO booklist (ISBN, title, author, description, price)
 VALUES ('$isbn', '$title', '$author', '$description', '$price')";
 
-if (mysqli_query($conn, $sql)) {
+if (empty($isbn) || empty($title) || empty($author) || empty($description) || empty($price)) {
+    $error_message = 'Please fill in all the fields.';
+    header("Location:addBook.php?error_message=" . $error_message);
+} else if (strlen($isbn) < 13) {
+    $error_message = 'ISBN must be at least 13 characters long.';
+    header("Location:addBook.php?error_message=" . $error_message);
+} else if (!is_numeric($isbn)) {
+    $error_message = 'ISBN must be numeric.';
+    header("Location:addBook.php?error_message=" . $error_message);
+} else if (!is_numeric($price)) {
+    $error_message = 'Price must be numeric.';
+    header("Location:addBook.php?error_message=" . $error_message);
+} else if (mysqli_query($conn, $sql)) {
     header("Location:booklist.php");
 }
 
