@@ -70,7 +70,11 @@ if (!isset($_SESSION["email"])) { //not equal to null
                         <input type='button' value='Edit'>
                     </a>
                 </td>
-                <td><button>Delete</button></td>
+                <td>
+                    <button onclick="confirmDelete('<?php echo $row['ISBN']; ?>')">Delete
+                    </button>
+                    </a>
+                </td>
             </tr>
         <?php
         }
@@ -79,9 +83,22 @@ if (!isset($_SESSION["email"])) { //not equal to null
 
         <a href="profile.php"><input type="submit" value="Profile"></a>
         <a href="addBook.php"><input type="submit" value="AddBook"></a>
-        <a href=""><input type="submit" value="LogOut"></a>
+        <a href="logout.php"><input type="submit" value="LogOut"></a>
 
     </table>
+
+    <script>
+        function confirmDelete(ISBN) {
+            let text = "Are you sure you want to delete the book with ISBN:" + ISBN + "?";
+
+            if (confirm(text) == true) {
+
+                window.location.href = "deleteBook.php?isbn=" + ISBN;
+            }
+        }
+    </script>
+
 </body>
+
 
 </html>

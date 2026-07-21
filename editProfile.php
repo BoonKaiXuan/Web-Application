@@ -25,7 +25,7 @@
         <a class="link" href="profile.php">Back</a>
     </button>
     <button>
-        <a class="link" href="">LogOut</a>
+        <a href="logout.php">LogOut</a>
     </button>
 
     <table width="600">
