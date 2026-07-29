@@ -110,7 +110,8 @@ if ($conn->connect_error) {
                                 <a class="btn btn_sub btn_blue" href="editProduct.php?prodID=<?php echo $row['prodID']; ?>">
                                     Edit
                                 </a>
-                                <button class="btn btn_sub btn_red">Delete</button>
+                                <button class="btn btn_sub btn_red" onclick="confirmDelete('<?php echo $row['prodID']; ?>')">Delete
+                                </button>
                             </div>
                         </td>
 
@@ -126,6 +127,17 @@ if ($conn->connect_error) {
             </table>
         </div>
     </div>
+
+    <script>
+        function confirmDelete(prodID) {
+            let text = "Are you sure you want to delete the product with product ID:" + prodID + "?";
+
+            if (confirm(text) == true) {
+
+                window.location.href = "deleteProd.php?prodID=" + prodID;
+            }
+        }
+    </script>
 
 </body>
 

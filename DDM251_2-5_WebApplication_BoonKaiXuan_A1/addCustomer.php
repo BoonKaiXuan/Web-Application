@@ -90,7 +90,7 @@
                     </tr>
                     <tr>
                         <th>Password:</th>
-                        <td><input type="text" name="password"></td>
+                        <td><input type="password" name="password"></td>
                     </tr>
                     <tr>
                         <th>Phone No.:</th>
@@ -99,8 +99,8 @@
 
                 </table>
                 <div class="row-flex gap-20">
-                    <a href="customer.php">
-                        <button class="btn btn_blue">Back to Customer Listing</button>
+                    <a class="btn btn_blue" href="customer.php">
+                        Back to Customer Listing
                     </a>
                     <input class="btn" type="submit" value="Create">
                 </div>

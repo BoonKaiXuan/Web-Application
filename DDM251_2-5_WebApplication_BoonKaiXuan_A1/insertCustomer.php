@@ -20,11 +20,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
     $phone = $_POST["customerPhoneNo"];
 
+    if ($customerID == "" || $username == "" || $firstName == "" || $lastName == "" || $email == "" || $password == "" || $phone == "") {
+        header("Location:addCustomer.php");
+        exit();
+    }
+
     $sql = "INSERT INTO customers (customerID, username, firstName, lastName, customerEmail, password, customerPhoneNo)
 VALUES ('$customerID', '$username', '$firstName', '$lastName', '$email', '$password', '$phone')";
 
     if (mysqli_query($conn, $sql)) {
         header("Location:customer.php");
+        exit();
+    } else {
+        echo mysqli_error($conn);
     }
 }
 mysqli_close($conn);
