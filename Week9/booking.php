@@ -22,18 +22,16 @@ if ($selectedDate == "all") {
     $query = "SELECT * FROM event_slots ORDER BY eventDate";
     $result = mysqli_query($conn, $query);
 } else {
-    $query = "SELECT eventName, capacity FROM event_slots WHERE eventDate=?";
-    $result = mysqli_query($conn, $query);
+    $query = "SELECT eventDate, slotID, eventName, capacity FROM event_slots WHERE eventDate=?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("s", $selectedDate);
+    $stmt->execute();
+    $result = $stmt->get_result();
 }
 
 /* Event Date */
 $eventDateQuery = "SELECT DISTINCT eventDate FROM event_slots";
 $eventDateResult = mysqli_query($conn, $eventDateQuery);
-
-/* --Event List --- */
-/*$eventListQuery = "SELECT eventName, capacity FROM event_slots WHERE eventDate='$selectedDate'";
-
-$eventListResult = mysqli_query($conn, $eventListQuery);*/
 
 ?>
 
@@ -43,8 +41,12 @@ $eventListResult = mysqli_query($conn, $eventListQuery);*/
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking</title>
+    <title>Booking - Event Booking</title>
     <style>
+        * {
+            text-decoration: none;
+        }
+
         table {
             border-collapse: collapse;
         }
@@ -58,28 +60,37 @@ $eventListResult = mysqli_query($conn, $eventListQuery);*/
 </head>
 
 <body>
+    <button><a href="profile.php">My Profile</a></button>
     <h1>
         Booking Form
     </h1>
 
     <div id="myBtnContainer">
-        <a href="?eventDate=all">Show all</a>
+        <button>
+            <a href="?eventDate=all">Show all</a>
+        </button>
 
         <?php
         while ($eventDateCol = mysqli_fetch_assoc($eventDateResult)) {
-        ?>
-        <?php
+
             $date = $eventDateCol['eventDate'];
-            echo "<a href='?eventDate=$date'>$date</a>";
+            echo "<button><a href='?eventDate=$date'>$date</a></button>";
+        }
+
+        if (isset($_GET['error_message'])) {
+            $error_message = $_GET['error_message'];
+            echo "<p style='color:red;'>$error_message</p>";
         }
         ?>
     </div>
-
-    <table width="1000">
+    <br>
+    <table width="700">
         <tr>
             <th width='100'>Event Date</th>
+            <th>Event ID</th>
             <th>Event Name</th>
             <th width='50'>Slots Available</th>
+            <th width='50'></th>
         </tr>
 
         <!-- Event List -->
@@ -92,10 +103,19 @@ $eventListResult = mysqli_query($conn, $eventListQuery);*/
                     <?php echo $row['eventDate']; ?>
                 </td>
                 <td>
+                    <?php echo $row['slotID']; ?>
+                </td>
+                <td>
                     <?php echo $row['eventName']; ?>
                 </td>
                 <td>
-                    <?php echo $row['capacity']; ?>
+                    <?php echo $row['capacity']; ?>/3
+                </td>
+                <td>
+                    <button onclick="confirmBook('<?php echo $row['slotID']; ?>')">
+                        Book
+                    </button>
+
                 </td>
             </tr>
         <?php
@@ -104,6 +124,17 @@ $eventListResult = mysqli_query($conn, $eventListQuery);*/
 
 
     </table>
+
+    <script>
+        function confirmBook(slotID) {
+            let text = "Are you sure you want to book the event with ID:" + slotID + "?";
+
+            if (confirm(text) == true) {
+
+                window.location.href = "runBooking.php?slotID=" + slotID;
+            }
+        }
+    </script>
 
 
 </body>

@@ -16,18 +16,18 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-
     session_start();
 
     //Execute sql query
     $sql = "SELECT * FROM customers WHERE email = '$userEmail' AND password = '$userPassword'";
 
     $result = $conn->query($sql);
+    $user = $result->fetch_assoc();
 
     //Process the result set
     if ($result->num_rows > 0) {
 
-        $_SESSION['email'] = $_POST['email'];
+        $_SESSION['userID'] = $user['userID'];
         header("Location:booking.php");
     } else {
         echo "User Not Found";
@@ -44,7 +44,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Login - Event Booking</title>
 
     <style>
         * {
