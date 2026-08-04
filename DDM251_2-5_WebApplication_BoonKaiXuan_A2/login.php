@@ -26,7 +26,7 @@ if (isset($_POST["email"]) && ($_POST["password"])) {
     if ($result->num_rows > 0) {
 
         $_SESSION['email'] = $_POST['email'];
-        header("Location:profile.php");
+        header("Location:survey.php");
     } else {
         echo "User Not Found";
     }

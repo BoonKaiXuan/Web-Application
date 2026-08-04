@@ -17,10 +17,10 @@ $lName = $_POST['lastName'];
 $cusEmail = strtolower($_POST['email']);
 $cusNo = $_POST['contactNo'];
 $cusPassW = $_POST['password'];
-$confirmPassW = $_POST['confirmPassW'];
+$confirmPassW = $_POST['confirmPassword'];
 
 //---All fields empty
-if (empty($fName) || empty($lName) || empty($cusEmail) || empty($cusNo) || empty($cusPassW) || empty($confirmPassW)) {
+if (empty($fName) || empty($lName) || empty($cusEmail) || empty($cusNo) || empty($cusPassW)) {
     $error_message = 'Please fill in all the fields.';
     header("Location:register.php?error_message=" . $error_message);
 
@@ -43,22 +43,30 @@ if (empty($fName) || empty($lName) || empty($cusEmail) || empty($cusNo) || empty
 } else if ($confirmPassW !== $cusPassW) {
     $error_message = 'Password does not match.';
     header("Location:register.php?error_message=" . $error_message);
-}
+} else {
 
-//---check if email alr exists
-$checkEmailSQL = "SELECT cusID FROM customers WHERE email = '$cusEmail'";
+    //---check if email alr exists
+    $checkEmailSQL = "SELECT email FROM customers WHERE email = '$cusEmail'";
 
-$result = $conn->query($checkEmailSQL);
+    $result = $conn->query($checkEmailSQL);
 
-if ($result->num_rows > 0) {
-    $error_message = 'This email has been registered. Please sign in instead.';
-    header("Location:register.php?error_message=" . $error_message);
-}
+    if ($result->num_rows > 0) {
+        $error_message = 'This email has been registered. Please sign in instead.';
+        header("Location:register.php?error_message=" . $error_message);
+    } else {
 
-//---register customers
-$insertSQL = "INSERT INTO customers (firstName, lastName, email, contactNo, password)
+        //---register customers
+        $insertSQL = "INSERT INTO customers (firstName, lastName, email, contactNo, password)
 VALUES ('$fName', '$lName', '$cusEmail', '$cusNo', '$cusPassW')";
 
-
-
+        if ($conn->query($insertSQL) === TRUE) {
+            session_start();
+            $_SESSION['email'] = $cusEmail;
+            header("Location:survey.php");
+        } else {
+            $error_message = 'Registration failed. Please try again.';
+            header("Location:register.php?error_message=" . $error_message);
+        }
+    }
+}
 mysqli_close($conn);

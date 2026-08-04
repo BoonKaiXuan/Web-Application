@@ -1,3 +1,16 @@
+<?php
+$servername = "localhost";
+$username = "event_booking";
+$password = "ouB]8YU4L/yrWL@S";
+$dbname = "event_booking";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,12 +43,15 @@
 
     <div>
         <form action="runRegister.php" method="POST">
+            <div>
+                <?php
+                if (isset($_GET['error_message'])) {
+                    $error_message = $_GET['error_message'];
+                    echo "<p style='color:red;'>$error_message</p>";
+                }
+                ?>
+            </div>
 
-            <!--         <div class="error-msg">
-                    <?php
-                    echo $error_message;
-                    ?>
-                </div> -->
             <div class="register_info">
                 <div>
                     <label>First Name:</label>
