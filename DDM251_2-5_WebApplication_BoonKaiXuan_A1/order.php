@@ -18,12 +18,11 @@ if ($conn->connect_error) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer List - Alice's Shop</title>
+    <title>Order Listing - Alice's Shop</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=dashboard" />
     <script src="https://kit.fontawesome.com/1619a0e9db.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/common.css">
 </head>
-
 <style>
     table {
         border-collapse: collapse;
@@ -53,7 +52,7 @@ if ($conn->connect_error) {
                     </span>Dashboard
                 </a>
             </div>
-            <div class="sidebar_menu_active">
+            <div>
                 <a class="sidebar_menu" href="customer.php">
                     <i class="fa-solid fa-user"></i>
                     Customers
@@ -65,7 +64,7 @@ if ($conn->connect_error) {
                     Products
                 </a>
             </div>
-            <div>
+            <div class="sidebar_menu_active">
                 <a class="sidebar_menu" href="order.php">
                     <i class="fa-solid fa-cart-shopping"></i>
                     Orders
@@ -78,17 +77,16 @@ if ($conn->connect_error) {
         </div>
 
         <div class="main">
-            <table width="1200">
+            <table width="800">
                 <tr>
-                    <th width="100">Customer ID</th>
+                    <th width="100">Order ID</th>
                     <th width="150">Username</th>
-                    <th width="200">First Name</th>
-                    <th width="200">Last Name</th>
-                    <th width="300">Email</th>
+                    <th width="300">Order Date</th>
+                    <th width="200">Total Amount (RM)</th>
                 </tr>
 
                 <?php
-                $query = "SELECT * FROM customers";
+                $query = "SELECT * FROM orders";
 
                 $result = mysqli_query($conn, $query);
 
@@ -96,20 +94,19 @@ if ($conn->connect_error) {
                 ?>
 
                     <tr>
-                        <td><?php echo $row['customerID']; ?></td>
+                        <td><?php echo $row['orderID']; ?></td>
                         <td><?php echo $row['username']; ?></td>
-                        <td><?php echo $row['firstName']; ?></td>
-                        <td><?php echo $row['lastName']; ?></td>
-                        <td><?php echo $row['customerEmail']; ?></td>
+                        <td><?php echo $row['orderDate']; ?></td>
+                        <td><?php echo $row['totalAmount']; ?></td>
                         <td class="row-flex">
-                            <a class="btn btn_sub btn_green" href="customerDetails.php?customerID=<?php echo $row['customerID']; ?>">
+                            <a class="btn btn_sub btn_green" href="orderDetails.php?orderID=<?php echo $row['orderID']; ?>">
                                 Details
                             </a>
-                            <a class="btn btn_sub btn_blue" href="editCustomer.php?customerID=<?php echo $row['customerID']; ?>">
+                            <a class="btn btn_sub btn_blue" href="editOrder.php?orderID=<?php echo $row['orderID']; ?>">
                                 Edit
                             </a>
 
-                            <button class="btn btn_sub btn_red" onclick="confirmDelete('<?php echo $row['customerID']; ?>')">
+                            <button class="btn btn_sub btn_red" onclick="confirmDelete('<?php echo $row['orderID']; ?>')">
                                 Delete
                             </button>
                         </td>
@@ -120,19 +117,19 @@ if ($conn->connect_error) {
                 mysqli_close($conn);
                 ?>
 
-                <a href="addCustomer.php"><input class="btn" h type="submit" value="Create New Customer"></a>
+                <a href="createOrder.php"><input class="btn" h type="submit" value="Create New Order"></a>
 
             </table>
         </div>
     </div>
 
     <script>
-        function confirmDelete(customerID) {
-            let text = "Are you sure you want to delete the customer with customer ID:" + customerID + "?";
+        function confirmDelete(orderID) {
+            let text = "Are you sure you want to delete the order with order ID:" + orderID + "?";
 
             if (confirm(text) == true) {
 
-                window.location.href = "deleteCus.php?customerID=" + customerID;
+                window.location.href = "deleteOrder.php?orderID=" + orderID;
             }
         }
     </script>

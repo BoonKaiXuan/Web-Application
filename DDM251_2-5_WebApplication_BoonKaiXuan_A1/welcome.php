@@ -58,9 +58,11 @@ if ($conn->connect_error) {
                     Products
                 </a>
             </div>
-            <div class="sidebar_menu">
-                <i class="fa-solid fa-cart-shopping"></i>
-                Orders
+            <div>
+                <a class="sidebar_menu" href="order.php">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    Orders
+                </a>
             </div>
             <div class="sidebar_menu">
                 <i class="fa-solid fa-right-from-bracket"></i>
