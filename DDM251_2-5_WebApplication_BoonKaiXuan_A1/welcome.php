@@ -4,13 +4,41 @@ $username = "aliceshop";
 $password = "E1yYuo(k47nHG(T9";
 $dbname = "aliceshop";
 
+session_start();
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+//Total Orders
+$orderResult = mysqli_query($conn, "SELECT COUNT(*) AS total FROM orders");
 
+$orderRow = mysqli_fetch_assoc($orderResult);
+$totalOrders = $orderRow['total'];
+
+//Unsold Products
+$prodResult = mysqli_query($conn, "SELECT p.prodID, p.prodName FROM products p
+         LEFT JOIN orderdetails od ON p.prodID = od.prodID
+         WHERE od.prodID IS NULL");
+$unsoldProd = mysqli_fetch_all($prodResult, MYSQLI_ASSOC);
+
+//Cus with no purchase
+$cusResult = mysqli_query($conn, "SELECT c.username FROM customers c
+         LEFT JOIN orders o ON c.username = o.username
+         WHERE o.username IS NULL");
+$inactiveCus = mysqli_fetch_all($cusResult, MYSQLI_ASSOC);
+
+//Top 3 products
+$top3Result = mysqli_query($conn, "SELECT p.prodID, p.prodName, SUM(od.qty) AS total_units_sold
+         FROM products p
+         JOIN orderdetails od ON p.prodID = od.prodID
+         GROUP BY p.prodID, p.prodName
+         ORDER BY total_units_sold DESC
+         LIMIT 3");
+$top3Prod = mysqli_fetch_all($top3Result, MYSQLI_ASSOC);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -30,6 +58,13 @@ if ($conn->connect_error) {
 
     .btn {
         width: 100%;
+    }
+
+    .card {
+        padding: 20px;
+        background-color: #FFEF9F;
+        border-radius: 8px;
+        margin: 6px 10px;
     }
 </style>
 
@@ -72,6 +107,39 @@ if ($conn->connect_error) {
 
         <div class="main">
             <h1> Welcome</h1>
+            <div class="topbar row-flex">
+                <div class="card">
+                    <h4>Total Orders</h4>
+                    <?php
+                    echo $totalOrders;
+                    ?>
+                </div>
+                <div class="card">
+                    <h4>Unsold Products</h4>
+                    <p><?= count($unsoldProd) ?></p>
+                </div>
+                <div class="card">
+                    <h4>Inactive Customers</h4>
+                    <p><?= count($inactiveCus) ?></p>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Top 3 Products</h3>
+                <br>
+                <ol>
+                    <?php if (!empty($top3Prod)): ?>
+                        <?php foreach ($top3Prod as $product): ?>
+                            <li>
+                                <strong><?= htmlspecialchars($product['prodID']) ?></strong>
+                                - <?= htmlspecialchars($product['prodName']) ?>
+                                (<?= $product['total_units_sold'] ?> sold)
+                            </li>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <li>No sales recorded yet.</li>
+                    <?php endif; ?>
+                </ol>
+            </div>
         </div>
 
     </div>
