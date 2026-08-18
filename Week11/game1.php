@@ -4,27 +4,54 @@ $username = "aliceboon";
 $password = "GFn/4dHUq(39b_d@";
 $dbname = "aliceboon";
 
+session_start();
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-session_start();
-$email = $_SESSION['email'];
-
-/* Create an array to store Game 1 counts for different emails */
-if (!isset($_SESSION['game1_play_count'])) {
-    $_SESSION['game1_play_count'] = [];
-}
-
-/* First time this email plays Game 1 */
-if (!isset($_SESSION['game1_play_count'][$email])) {
-    $_SESSION['game1_play_count'][$email] = 0;
-}
-
+$uid = $_SESSION['UID'];
+$message = "";
+//must declare an empty before the condition otherwise it cannot be called out
 
 if (isset($_POST['btn_no'])) {
+    $selected_no = (int)$_POST['btn_no'];
+
+    $click_query = "SELECT G1_click FROM game WHERE UID = '$uid'";
+    $click_result = $conn->query($click_query);
+
+    if ($click_result && $click_result->num_rows > 0) {
+        $click_row = $click_result->fetch_assoc();
+
+        // Assign the column value to your variable
+        $curr_click = (int)$click_row['G1_click'];
+
+        if ($curr_click >= 2) {
+            $message = "Limit reached! You cannot submit more than 2 times.";
+        } else {
+            $sql = "UPDATE game SET G1 = '$selected_no', G1_click = $curr_click +1 WHERE UID = '$uid'";
+
+            if ($conn->query($sql) === TRUE) {
+                $message = "Updated! Play count: " . $curr_click + 1 . "/2";
+            }
+        }
+    }
+}
+
+/* Create an array to store Game 1 counts for different emails */
+/* if (!isset($_SESSION['game1_play_count'])) {
+    $_SESSION['game1_play_count'] = [];
+} */
+
+/* First time this email plays Game 1 */
+/* if (!isset($_SESSION['game1_play_count'][$email])) {
+    $_SESSION['game1_play_count'][$email] = 0;
+} */
+
+
+/* if (isset($_POST['btn_no'])) {
     $selected_no = (int)$_POST['btn_no'];
 
     if ($_SESSION['game1_play_count'][$email] >= 2) {
@@ -41,7 +68,7 @@ if (isset($_POST['btn_no'])) {
             exit();
         }
     }
-}
+} */
 ?>
 
 <!DOCTYPE html>
@@ -57,11 +84,11 @@ if (isset($_POST['btn_no'])) {
     <a href="game.php">Back</a>
     <h1>Game 1</h1>
     <?php
-    if (isset($_SESSION['message'])) {
+    echo "<p style='color: red;'>$message</p>";
+    /*     if (isset($_SESSION['message'])) {
         echo "<p style='color: red;'>{$_SESSION['message']}</p>";
         unset($_SESSION['message']);
-        /* to remove the message aft displaying it in each pg */
-    }
+    } */
     ?>
     <form method="POST">
         <button type="submit" name="btn_no" value="0">0</button>

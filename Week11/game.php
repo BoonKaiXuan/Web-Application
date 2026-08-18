@@ -11,8 +11,10 @@ if ($conn->connect_error) {
 }
 
 session_start();
-$email = $_SESSION['email'];
-
+//$email = $_SESSION['email'];
+if (isset($_SESSION['UID'])) {
+    $uid = $_SESSION['UID'];
+}
 ?>
 
 <!DOCTYPE html>

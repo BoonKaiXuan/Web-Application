@@ -28,12 +28,11 @@ if (isset($_POST["name"]) && isset($_POST["email"]) && isset($_POST["age"])) {
     }
 
     $uid = date('YmdHis') . "_" . $code;
-    $sql = "INSERT INTO game (name, email, age, UID, G1, G2, G3) VALUES ('$name', '$email', '$age', '$uid', 0, 0, 0)";
+    $sql = "INSERT INTO game (name, email, age, UID) VALUES ('$name', '$email', '$age', '$uid')";
 
 
     if ($conn->query($sql) === TRUE) {
-
-        $_SESSION['email'] = $email;
+        //$_SESSION['email'] = $email;
         $_SESSION['UID'] = $uid;
         header("Location:game.php");
     } else {
