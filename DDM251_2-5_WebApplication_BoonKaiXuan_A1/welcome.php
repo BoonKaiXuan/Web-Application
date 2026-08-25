@@ -5,12 +5,23 @@ $password = "E1yYuo(k47nHG(T9";
 $dbname = "aliceshop";
 
 session_start();
+$uid = $_SESSION['customerID'];
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+//if not log in yet
+if (!isset($_SESSION["customerID"])) { //not equal to null
+    header("Location:index.php");
+}
+
+//to fetch username
+$userQuery = mysqli_query($conn, "SELECT username FROM customers WHERE customerID = '$uid'");
+$user = mysqli_fetch_assoc($userQuery);
+
 //Total Orders
 $orderResult = mysqli_query($conn, "SELECT COUNT(*) AS total FROM orders");
 
@@ -50,23 +61,33 @@ $top3Prod = mysqli_fetch_all($top3Result, MYSQLI_ASSOC);
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=dashboard" />
     <script src="https://kit.fontawesome.com/1619a0e9db.js" crossorigin="anonymous"></script>
+
+    <style>
+        .sidebar>div span {
+            color: #FFEF9F;
+        }
+
+        .card {
+            padding: 30px;
+            background-color: #FFEF9F;
+            border-radius: 16px;
+            margin: 6px 10px;
+        }
+
+        .topbar {
+            width: calc(33.33% - calc(2 * 20px /3));
+            text-align: center;
+        }
+
+        .card_icon {
+            border-radius: 8px;
+            color: #E13F7C;
+            font-size: 30px;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
-<style>
-    .sidebar>div span {
-        color: #FFEF9F;
-    }
-
-    .btn {
-        width: 100%;
-    }
-
-    .card {
-        padding: 20px;
-        background-color: #FFEF9F;
-        border-radius: 8px;
-        margin: 6px 10px;
-    }
-</style>
 
 <body>
     <div class="container">
@@ -99,37 +120,71 @@ $top3Prod = mysqli_fetch_all($top3Result, MYSQLI_ASSOC);
                     Orders
                 </a>
             </div>
-            <div class="sidebar_menu">
+            <div class="sidebar_menu" onclick="confirmLogout()">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Sign Out
             </div>
         </div>
 
         <div class="main">
-            <h1> Welcome</h1>
-            <div class="topbar row-flex">
-                <div class="card">
-                    <h4>Total Orders</h4>
+            <div>
+                <h1> Welcome,</h1>
+                <h1>
                     <?php
-                    echo $totalOrders;
+                    echo $user['username'];
                     ?>
+                </h1>
+            </div>
+
+            <div class="row-flex margin-tnb-20">
+                <div class="card topbar">
+                    <div class="card_icon">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </div>
+                    <div>
+                        <h5>Total Orders</h5>
+                        <h2>
+                            <?php
+                            echo $totalOrders;
+                            ?>
+                        </h2>
+                    </div>
+
                 </div>
-                <div class="card">
-                    <h4>Unsold Products</h4>
-                    <p><?= count($unsoldProd) ?></p>
+
+                <div class="card topbar">
+                    <div class="card_icon">
+                        <i class="fa-solid fa-box-open"></i>
+                    </div>
+                    <div>
+                        <h5>Unsold Products</h5>
+                        <h2><?= count($unsoldProd) ?></h2>
+                    </div>
+
                 </div>
-                <div class="card">
-                    <h4>Inactive Customers</h4>
-                    <p><?= count($inactiveCus) ?></p>
+
+                <div class="card topbar">
+                    <div class="card_icon">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div>
+                        <h5>Inactive Customers</h5>
+                        <h2><?= count($inactiveCus) ?></h2>
+                    </div>
+
                 </div>
             </div>
+
             <div class="card">
-                <h3>Top 3 Products</h3>
-                <br>
+                <div class="row-flex gap-20 margin-tnb-20">
+                    <h2>Top 3 Products</h2>
+                    <i class="fa-solid fa-ranking-star" style="color: #E13F7C; font-size:30px;"></i>
+                </div>
+
                 <ol>
                     <?php if (!empty($top3Prod)): ?>
                         <?php foreach ($top3Prod as $product): ?>
-                            <li>
+                            <li class="margin-tnb-20">
                                 <strong><?= htmlspecialchars($product['prodID']) ?></strong>
                                 - <?= htmlspecialchars($product['prodName']) ?>
                                 (<?= $product['total_units_sold'] ?> sold)
@@ -143,6 +198,8 @@ $top3Prod = mysqli_fetch_all($top3Result, MYSQLI_ASSOC);
         </div>
 
     </div>
+
+    <script src="js/logout.js"></script>
 </body>
 
 </html>

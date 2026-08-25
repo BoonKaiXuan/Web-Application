@@ -4,10 +4,17 @@ $username = "aliceshop";
 $password = "E1yYuo(k47nHG(T9";
 $dbname = "aliceshop";
 
+session_start();
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
+}
+
+//if not log in yet
+if (!isset($_SESSION["customerID"])) {
+    header("Location:index.php");
 }
 
 $cusID = $_GET['customerID'];
@@ -28,29 +35,26 @@ $customer = mysqli_fetch_assoc($result);
     <script src="https://kit.fontawesome.com/1619a0e9db.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/common.css">
 
+    <style>
+        table,
+        th,
+        td {
+            border: none;
+        }
+
+        th {
+            text-align: left;
+        }
+
+        tr {
+            height: 50px;
+        }
+
+        .sidebar_menu_active>a i {
+            color: #FFEF9F;
+        }
+    </style>
 </head>
-<style>
-    th {
-        text-align: left;
-    }
-
-    tr {
-        height: 50px;
-    }
-
-    table input {
-        width: 100%;
-    }
-
-    .sidebar_menu_active>a i {
-        color: #FFEF9F;
-    }
-
-    .error {
-        color: red;
-        font-weight: 600;
-    }
-</style>
 
 <body>
     <div class="container">
@@ -77,11 +81,13 @@ $customer = mysqli_fetch_assoc($result);
                     Products
                 </a>
             </div>
-            <div class="sidebar_menu">
-                <i class="fa-solid fa-cart-shopping"></i>
-                Orders
+            <div>
+                <a class="sidebar_menu" href="order.php">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    Orders
+                </a>
             </div>
-            <div class="sidebar_menu">
+            <div class="sidebar_menu" onclick="confirmLogout()">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Sign Out
             </div>
@@ -92,21 +98,21 @@ $customer = mysqli_fetch_assoc($result);
 
             <?php
             if (isset($_GET['empty'])) {
-                echo '<p class="error">' . $empty = $_GET['empty'] . "</p>";
+                echo '<p class="error-msg">' . $empty = $_GET['empty'] . "</p>";
             }
 
             if (isset($_GET['confirmPW'])) {
-                echo '<p class="error">' . $confirmPW = $_GET['confirmPW'] . "</p>";
+                echo '<p class="error-msg">' . $confirmPW = $_GET['confirmPW'] . "</p>";
             }
 
             if (isset($_GET['errorPW'])) {
-                echo '<p class="error">' . $errorPW = $_GET['errorPW'] . "</p>";
+                echo '<p class="error-msg">' . $errorPW = $_GET['errorPW'] . "</p>";
             }
 
             ?>
 
             <form action="runEditCustomer.php" method="POST">
-                <table width="100%">
+                <table width="100%" class="margin-tnb-20">
                     <tr>
                         <th>Customer ID:</th>
                         <td><input name="customerID" value="<?php echo $customer['customerID']; ?>" readonly></td>
@@ -143,8 +149,8 @@ $customer = mysqli_fetch_assoc($result);
                 </table>
 
                 <div class="row-flex gap-20">
-                    <a href="customer.php">
-                        <button class="btn btn_blue">Back to Customer Listing</button>
+                    <a href="customer.php" class="btn btn_blue">
+                        Back to Customer Listing
                     </a>
                     <input class="btn" type="submit" value="Update Profile">
                 </div>
@@ -153,6 +159,7 @@ $customer = mysqli_fetch_assoc($result);
         </div>
     </div>
 
+    <script src="js/logout.js"></script>
 </body>
 
 </html>

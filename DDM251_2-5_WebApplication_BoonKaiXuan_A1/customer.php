@@ -4,12 +4,18 @@ $username = "aliceshop";
 $password = "E1yYuo(k47nHG(T9";
 $dbname = "aliceshop";
 
+session_start();
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+//if not log in yet
+if (!isset($_SESSION["customerID"])) {
+    header("Location:index.php");
+}
 ?>
 
 <!DOCTYPE html>
@@ -22,23 +28,14 @@ if ($conn->connect_error) {
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=dashboard" />
     <script src="https://kit.fontawesome.com/1619a0e9db.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/common.css">
+
+    <style>
+        .sidebar_menu_active>a i {
+            color: #FFEF9F;
+        }
+    </style>
 </head>
 
-<style>
-    table {
-        border-collapse: collapse;
-    }
-
-    table,
-    th,
-    td {
-        border: 1px solid black;
-    }
-
-    .sidebar_menu_active>a i {
-        color: #FFEF9F;
-    }
-</style>
 
 <body>
     <div class="container">
@@ -71,14 +68,19 @@ if ($conn->connect_error) {
                     Orders
                 </a>
             </div>
-            <div class="sidebar_menu">
+            <div class="sidebar_menu" onclick="confirmLogout()">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Sign Out
             </div>
         </div>
 
         <div class="main">
-            <table width="1200">
+            <div class="row-flex space-between margin-tnb-20">
+                <h1>Customer List</h1>
+                <a href="addCustomer.php"><input class="btn" h type="submit" value="+ Create New Customer"></a>
+            </div>
+
+            <table width=100%>
                 <tr>
                     <th width="100">Customer ID</th>
                     <th width="150">Username</th>
@@ -101,17 +103,20 @@ if ($conn->connect_error) {
                         <td><?php echo $row['firstName']; ?></td>
                         <td><?php echo $row['lastName']; ?></td>
                         <td><?php echo $row['customerEmail']; ?></td>
-                        <td class="row-flex">
-                            <a class="btn btn_sub btn_green" href="customerDetails.php?customerID=<?php echo $row['customerID']; ?>">
-                                Details
-                            </a>
-                            <a class="btn btn_sub btn_blue" href="editCustomer.php?customerID=<?php echo $row['customerID']; ?>">
-                                Edit
-                            </a>
+                        <td>
+                            <div class="row-flex">
+                                <a class="btn btn_sub btn_green" href="customerDetails.php?customerID=<?php echo $row['customerID']; ?>">
+                                    Details
+                                </a>
+                                <a class="btn btn_sub btn_blue" href="editCustomer.php?customerID=<?php echo $row['customerID']; ?>">
+                                    Edit
+                                </a>
 
-                            <button class="btn btn_sub btn_red" onclick="confirmDelete('<?php echo $row['customerID']; ?>')">
-                                Delete
-                            </button>
+                                <button class="btn btn_sub btn_red" onclick="confirmDelete('<?php echo $row['customerID']; ?>')">
+                                    Delete
+                                </button>
+                            </div>
+
                         </td>
 
                     </tr>
@@ -119,9 +124,6 @@ if ($conn->connect_error) {
                 }
                 mysqli_close($conn);
                 ?>
-
-                <a href="addCustomer.php"><input class="btn" h type="submit" value="Create New Customer"></a>
-
             </table>
         </div>
     </div>
@@ -136,6 +138,7 @@ if ($conn->connect_error) {
             }
         }
     </script>
+    <script src="js/logout.js"></script>
 
 </body>
 

@@ -4,11 +4,19 @@ $username = "aliceshop";
 $password = "E1yYuo(k47nHG(T9";
 $dbname = "aliceshop";
 
+session_start();
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+//if not log in yet
+if (!isset($_SESSION["customerID"])) {
+    header("Location:index.php");
+}
+
 $cusID = $_GET['customerID'];
 
 $sql = "SELECT * FROM customers WHERE customerID='$cusID'";
@@ -26,25 +34,25 @@ $customer = mysqli_fetch_assoc($result);
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=dashboard" />
     <script src="https://kit.fontawesome.com/1619a0e9db.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/common.css">
+
+    <style>
+        th {
+            text-align: left;
+        }
+
+        tr {
+            height: 50px;
+        }
+
+        table input {
+            width: 100%;
+        }
+
+        .sidebar_menu_active>a i {
+            color: #FFEF9F;
+        }
+    </style>
 </head>
-
-<style>
-    th {
-        text-align: left;
-    }
-
-    tr {
-        height: 50px;
-    }
-
-    table input {
-        width: 100%;
-    }
-
-    .sidebar_menu_active>a i {
-        color: #FFEF9F;
-    }
-</style>
 
 <body>
     <div class="sidebar">
@@ -71,11 +79,13 @@ $customer = mysqli_fetch_assoc($result);
                 Products
             </a>
         </div>
-        <div class="sidebar_menu">
-            <i class="fa-solid fa-cart-shopping"></i>
-            Orders
+        <div>
+            <a class="sidebar_menu" href="order.php">
+                <i class="fa-solid fa-cart-shopping"></i>
+                Orders
+            </a>
         </div>
-        <div class="sidebar_menu">
+        <div class="sidebar_menu" onclick="confirmLogout()">
             <i class="fa-solid fa-right-from-bracket"></i>
             Sign Out
         </div>
@@ -83,7 +93,7 @@ $customer = mysqli_fetch_assoc($result);
 
     <div class="main">
         <h1>Customer Details</h1>
-        <table width="100%">
+        <table width="100%" class="margin-tnb-20">
             <tr>
                 <th>Customer ID</th>
                 <td><?php echo $customer['customerID']; ?></td>
@@ -124,6 +134,7 @@ $customer = mysqli_fetch_assoc($result);
         </div>
     </div>
 
+    <script src="js/logout.js"></script>
 </body>
 
 </html>

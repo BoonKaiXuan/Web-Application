@@ -4,11 +4,19 @@ $username = "aliceshop";
 $password = "E1yYuo(k47nHG(T9";
 $dbname = "aliceshop";
 
+session_start();
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+//if not log in yet
+if (!isset($_SESSION["customerID"])) {
+    header("Location:index.php");
+}
+
 $prodID = $_GET['prodID'];
 
 $sql = "SELECT * FROM products WHERE prodID='$prodID'";
@@ -71,18 +79,20 @@ $product = mysqli_fetch_assoc($result);
                     Products
                 </a>
             </div>
-            <div class="sidebar_menu">
-                <i class="fa-solid fa-cart-shopping"></i>
-                Orders
+            <div>
+                <a class="sidebar_menu" href="order.php">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    Orders
+                </a>
             </div>
-            <div class="sidebar_menu">
+            <div class="sidebar_menu" onclick="confirmLogout()">
                 <i class="fa-solid fa-right-from-bracket"></i>
                 Sign Out
             </div>
         </div>
         <div class="main">
             <h1>Product Details</h1>
-            <table width="100%">
+            <table width="100%" class="margin-tnb-20">
                 <tr>
                     <th>Product ID</th>
                     <td><?php echo $product['prodID']; ?></td>
@@ -112,6 +122,7 @@ $product = mysqli_fetch_assoc($result);
         </div>
     </div>
 
+    <script src="js/logout.js"></script>
 </body>
 
 </html>

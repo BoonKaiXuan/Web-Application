@@ -19,7 +19,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $price = $_POST["price"];
 
     if ($prodID == "" || $prodName == "" || $price == "") {
-        header("Location:addProduct.php");
+        $error_msg = "*Please fill in ProductID, Product Name and Price.";
+        header("Location:addProduct.php?error_msg=" . $error_msg);
         exit();
     }
 

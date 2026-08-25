@@ -4,14 +4,26 @@ $username = "aliceshop";
 $password = "E1yYuo(k47nHG(T9";
 $dbname = "aliceshop";
 
+session_start();
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
+//if not log in yet
+if (!isset($_SESSION["customerID"])) {
+    header("Location:index.php");
+}
+
 $orderID = $_GET['orderID'];
 
-$sql = "SELECT * FROM orderDetails WHERE orderID='$orderID'";
+$sql = "SELECT od.*, p.prodName 
+        FROM orderdetails AS od
+        INNER JOIN products AS p
+        ON od.prodID = p.prodID
+        WHERE od.orderID='$orderID'";
 $result = mysqli_query($conn, $sql);
 //for total order amount
 $sqlTotal = "SELECT totalAmount 
@@ -35,26 +47,12 @@ $order = mysqli_fetch_assoc($resultTotal);
 </head>
 
 <style>
-    table {
-        border-collapse: collapse;
-    }
-
-    table,
-    th,
-    td {
-        border: 1px solid black;
-    }
-
     th {
-        text-align: left;
+        text-align: center;
     }
 
     tr {
         height: 50px;
-    }
-
-    table input {
-        width: 100%;
     }
 
     .sidebar_menu_active>a i {
@@ -92,7 +90,7 @@ $order = mysqli_fetch_assoc($resultTotal);
                 Orders
             </a>
         </div>
-        <div class="sidebar_menu">
+        <div class="sidebar_menu" onclick="confirmLogout()">
             <i class="fa-solid fa-right-from-bracket"></i>
             Sign Out
         </div>
@@ -100,11 +98,12 @@ $order = mysqli_fetch_assoc($resultTotal);
 
     <div class="main">
         <h1>Order Details</h1>
-        <table width="500">
+        <table width="100%" class="margin-tnb-20">
             <tr>
                 <th width="150">Order Details ID</th>
                 <th width="150">Order ID</th>
                 <th width="150">Product ID</th>
+                <th width="250">Product Name</th>
                 <th>QTY</th>
                 <th>Unit Price (RM)</th>
                 <th>Total Amount (RM)</th>
@@ -115,6 +114,7 @@ $order = mysqli_fetch_assoc($resultTotal);
                     <td><?php echo $row['orderDetailsID']; ?></td>
                     <td><?php echo $row['orderID']; ?></td>
                     <td><?php echo $row['prodID']; ?></td>
+                    <td><?php echo $row['prodName']; ?></td>
                     <td><?php echo $row['qty']; ?></td>
                     <td><?php echo number_format($row['prodPrice'], 2); ?></td>
                     <td><?php echo number_format($row['totalAmount'], 2); ?></td>
@@ -122,9 +122,10 @@ $order = mysqli_fetch_assoc($resultTotal);
             <?php } ?>
 
         </table>
-        <div style="margin-top: 20px;">
+
+        <div class="margin-tnb-20">
             <strong>
-                Total Amount: RM <?php echo number_format($order['totalAmount'], 2); ?>
+                Total Order Amount: RM <?php echo number_format($order['totalAmount'], 2); ?>
             </strong>
         </div>
         <br>
@@ -138,6 +139,7 @@ $order = mysqli_fetch_assoc($resultTotal);
         </div>
     </div>
 
+    <script src="js/logout.js"></script>
 </body>
 
 </html>

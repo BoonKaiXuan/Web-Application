@@ -16,6 +16,23 @@ if ($conn->connect_error) {
 if (!isset($_SESSION["customerID"])) {
     header("Location:index.php");
 }
+
+$orderID = $_GET['orderID'];
+$products = [];
+//Get all prods
+$sql = "SELECT prodID, prodName FROM products";
+$result = mysqli_query($conn, $sql);
+
+while ($product = mysqli_fetch_assoc($result)) {
+    $products[] = $product;
+}
+//Get the prod in this order
+$sqlDetails = "SELECT od.prodID, od.qty, p.prodName 
+            FROM orderdetails AS od
+            INNER JOIN products p
+            ON od.prodID = p.prodID
+            WHERE od.orderID = $orderID";
+$detailResult = mysqli_query($conn, $sqlDetails);
 ?>
 
 <!DOCTYPE html>
@@ -24,10 +41,10 @@ if (!isset($_SESSION["customerID"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Order - Alice's Shop</title>
-    <link rel="stylesheet" href="css/common.css">
+    <title>Edit Order - Alice's Shop</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=dashboard" />
     <script src="https://kit.fontawesome.com/1619a0e9db.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/common.css">
 
     <style>
         table,
@@ -38,10 +55,6 @@ if (!isset($_SESSION["customerID"])) {
 
         th {
             text-align: left;
-        }
-
-        tr {
-            height: 50px;
         }
 
         .sidebar_menu_active>a i {
@@ -58,13 +71,14 @@ if (!isset($_SESSION["customerID"])) {
             width: 50px;
         }
     </style>
+
 </head>
 
 <body>
     <div class="container">
         <div class="sidebar">
             <div class="sidebar_header">
-                Alice's Shops
+                Alice's Shop
             </div>
             <div>
                 <a class="sidebar_menu vert-align" href="welcome.php">
@@ -96,60 +110,64 @@ if (!isset($_SESSION["customerID"])) {
                 Sign Out
             </div>
         </div>
-
         <div class="main">
-            <h1>Create New Order</h1>
+            <h1>Edit Order</h1>
             <?php
             if (isset($_GET['error_message'])) {
                 $error_message = $_GET['error_message'];
                 echo '<p class="error-msg">' . $erro_message = $_GET['error_message'] . "</p>";
             }
             ?>
-            <form action="insertOrder.php" method="POST">
+
+            <form action="runEditOrder.php?orderID=<?= $orderID ?>" method="POST">
                 <table width="100%" id="productTable" class="margin-tnb-20">
                     <tr>
                         <th>Username:</th>
                         <td>
-                            <select name="username">
-                                <option value="" selected disabled>&lt;-- Select Username --&gt;</option>
-                                <?php
-                                $sql = "SELECT username FROM customers";
-                                $result = mysqli_query($conn, $sql);
-
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "<option value='" . $row['username'] . "'>";
-                                    echo $row['username'];
-                                    echo "</option>";
-                                }
-                                ?>
-                            </select>
-                        </td>
-                    </tr>
-                    <!-- Product 1 -->
-                    <tr class="product-row">
-                        <th width="150">Product</th>
-                        <td>
-                            <select name="prodID[]">
-                                <option value="" selected disabled>&lt;-- Select Product --&gt;</option>
-                                <?php
-                                $sql = "SELECT prodID, prodName FROM products";
-                                $result = mysqli_query($conn, $sql);
-
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "<option value='" . $row['prodID'] . "'>";
-                                    echo $row['prodID'] . " - " . $row['prodName'];
-                                    echo "</option>";
-                                }
-                                ?>
-                            </select>
-
-                            <label>Quantity:</label>
-                            <input type="number" name="qty[]" min="1">
-
-                            <button type="button" onclick="deleteProduct(this)" class="btn btn_red btn_sub">Delete Product</button>
+                            <?php
+                            $sql = "SELECT username FROM orders WHERE orderID = $orderID";
+                            $result = mysqli_query($conn, $sql);
+                            $row = mysqli_fetch_assoc($result);
+                            echo $row['username'];
+                            ?>
                         </td>
                     </tr>
 
+                    <!-- Product -->
+                    <?php while ($detail = mysqli_fetch_assoc($detailResult)): ?>
+                        <tr class="product-row">
+                            <th width="150">Product</th>
+                            <td>
+                                <select name="prodID[] required">
+                                    <option value="" disabled>
+                                        &lt;-- Select Product --&gt;
+                                    </option>
+                                    <?php
+                                    foreach ($products as $row) {
+                                        $selected = (
+                                            $row['prodID'] == $detail['prodID']
+                                        ) ? 'selected' : '';
+
+                                        echo "<option value='"
+                                            . $row['prodID']
+                                            . "' $selected>";
+
+                                        echo htmlspecialchars(
+                                            $row['prodID'] . " - " . $row['prodName']
+                                        );
+
+                                        echo "</option>";
+                                    }
+                                    ?>
+                                </select>
+
+                                <label>Quantity:</label>
+                                <input type="number" name="qty[]" min="1" value="<?= $detail['qty'] ?>">
+
+                                <button type="button" onclick="deleteProduct(this)" class="btn btn_red btn_sub">Delete Product</button>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
                 </table>
                 <div>
                     <button type="button" onclick="addProduct()" class="btn btn_green">+ Add Product</button>
@@ -159,7 +177,7 @@ if (!isset($_SESSION["customerID"])) {
                     <a class="btn btn_blue" href="order.php">
                         Back to Order Listing
                     </a>
-                    <input class="btn" type="submit" value="Create Order">
+                    <input class="btn" type="submit" value="Update Order">
                 </div>
             </form>
 
@@ -193,6 +211,7 @@ if (!isset($_SESSION["customerID"])) {
             }
         }
     </script>
+
     <script src="js/logout.js"></script>
 </body>
 

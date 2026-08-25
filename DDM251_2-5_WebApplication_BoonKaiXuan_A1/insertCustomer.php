@@ -4,7 +4,6 @@ $username = "aliceshop";
 $password = "E1yYuo(k47nHG(T9";
 $dbname = "aliceshop";
 
-
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 // Check connection
@@ -21,18 +20,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phone = $_POST["customerPhoneNo"];
 
     if ($customerID == "" || $username == "" || $firstName == "" || $lastName == "" || $email == "" || $password == "" || $phone == "") {
-        header("Location:addCustomer.php");
-        exit();
-    }
+        $error_msg = "*Please fill in all the fields.";
+        header("Location:addCustomer.php?error_msg=" . $error_msg);
+    } else if (strlen($password) < 6) {
+        $error_msg = '*Password must be at least 6 characters long.';
+        header("Location:addCustomer.php?error_msg=" . $error_msg);
+    } else {
 
-    $sql = "INSERT INTO customers (customerID, username, firstName, lastName, customerEmail, password, customerPhoneNo)
+        $sql = "INSERT INTO customers (customerID, username, firstName, lastName, customerEmail, password, customerPhoneNo)
 VALUES ('$customerID', '$username', '$firstName', '$lastName', '$email', '$password', '$phone')";
 
-    if (mysqli_query($conn, $sql)) {
-        header("Location:customer.php");
-        exit();
-    } else {
-        echo mysqli_error($conn);
+        if (mysqli_query($conn, $sql)) {
+            header("Location:customer.php");
+            exit();
+        } else {
+            echo mysqli_error($conn);
+        }
     }
 }
 mysqli_close($conn);
