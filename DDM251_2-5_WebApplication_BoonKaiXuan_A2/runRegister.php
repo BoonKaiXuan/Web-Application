@@ -4,6 +4,8 @@ $username = "tealive";
 $password = "5spY@)Hmeg]XrKeS";
 $dbname = "tealive";
 
+session_start();
+
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 // Check connection
@@ -60,7 +62,6 @@ if (empty($fName) || empty($lName) || empty($cusEmail) || empty($cusNo) || empty
 VALUES ('$fName', '$lName', '$cusEmail', '$cusNo', '$cusPassW')";
 
         if ($conn->query($insertSQL) === TRUE) {
-            session_start();
             $_SESSION['email'] = $cusEmail;
             header("Location:survey.php");
         } else {
