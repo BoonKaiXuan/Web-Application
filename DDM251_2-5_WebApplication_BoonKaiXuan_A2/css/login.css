@@ -1,0 +1,28 @@
+.bg-cup{
+    background-image: url(../img/tealive_cup.png);
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.login_info{
+    max-width: 245px;
+    margin: auto;
+    position: relative;
+    top:8vh;
+    left:1.5vw;
+    padding:20px 0px;
+}
+
+.margin-btm{
+    margin-bottom: 30px;
+}
+
+header{
+   padding: 35px 0px;
+}
+
+h1{
+    -webkit-text-stroke: 8px white;
+    paint-order: stroke fill;
+}

@@ -1,4 +1,4 @@
-.step{
+.step, .error-msg{
     display:none;
 }
 
@@ -6,7 +6,68 @@
     display:block;
 }
 
+.step{
+    padding: 20px 0;
+}
+
+.progress progress{
+    width: 100%;
+    margin:8px 0px 30px 0px;
+}
+
+.progress progress::-webkit-progress-bar {
+    background-color:white;
+}
+
+.progress progress::-webkit-progress-value {
+    background-color: var(--color-pale-purple);
+}
+
+.progress progress::-webkit-progress-bar,
+.progress progress::-webkit-progress-value{
+    border-radius: 20px;
+}
+
+h3{
+    color: var(--color-golden-yellow);
+}
+
+input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+label {
+    display:block;
+    padding: 10px 20px;
+    border: 2px solid white;
+    border-radius: 25px;
+    color: white;
+}
+
+input[type="radio"]:checked + label {
+    background-color: var(--color-golden-yellow);
+    color: var(--color-dark-purple);
+    font-weight: 500;
+}
+
+.survey_options{
+    margin: 20px 0px;
+}
+
 .error-msg{
-    color:red;
-    display:none;
+    margin: 20px 0;;
+}
+
+.next{
+    text-align: right;
+}
+
+.intro{
+    margin-bottom: 10px;
+}
+
+.btns{
+margin: 50px 0px;
 }

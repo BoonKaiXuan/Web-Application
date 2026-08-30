@@ -25,8 +25,8 @@
     --font-weight-regular: 400;
     --font-weight-medium: 500;
     --font-weight-bold: 600;
-    --font-body-default-line-height: 1.8;
-    --h1-font-size: 35px;
+    --font-body-default-line-height: 1.6;
+    --h1-font-size: 44px;
     --h2-font-size: 28px;
     --h3-font-size: 24px;
     --link-font-size: 14px;
@@ -34,8 +34,13 @@
     /* ----------BUTTON---------- */
     --color-btn-yellow-bg-default: var(--color-golden-yellow);
     --color-btn-yellow-bg-enabled:#deb00a;
-    --padding-btn:8px 24px;
+    --padding-btn:12px 28px;
     --radiu-btn:24px;
+
+    /* ----------FORM---------- */
+    --color-form-bg-default:var(--color-pale-purple);
+    --padding-form: 6px 8px;
+    --radius-form: 8px;
 }
 
 
@@ -50,12 +55,22 @@
 
 .row-flex {
     display: flex;
-    justify-content: center;
-    align-items: center;
+}
+
+.full-width{
+    width: 100%;
 }
 
 body{
     margin:36px 0;
+}
+
+.direct-col{
+    flex-direction: column;
+}
+
+.space-btwn{
+    justify-content: space-between;
 }
 
 /* ----------TYPOGRAPHY---------- */
@@ -69,6 +84,7 @@ body {
 
 h1 {
     font-size: var(--h1-font-size);
+    color:var(--color-golden-yellow);
 }
 
 h2 {
@@ -80,19 +96,37 @@ h3 {
     font-size: var(--h3-font-size);
 }
 
+h1, h2, h3{
+    line-height: 1.2;
+}
+
 a{
     color:inherit;
     font-size: var(--link-font-size);
+    display: block;
 }
 
 button,
 input {
     font-family: inherit;
+    font-size: inherit;
 }
 
-/* ----------BACKGROUND---------- */
+.txt-center{
+    text-align: center;
+}
+
+/* ----------COLORS---------- */
 .bg-dark-purple{
     background-color: var(--color-dark-purple);
+}
+
+.bg-pale-purple{
+    background-color: var(--color-pale-purple);
+}
+
+.color-yellow{
+    color:var(--color-golden-yellow);
 }
 
 /* ----------BUTTON--------- */
@@ -100,11 +134,58 @@ input {
     padding: var(--padding-btn);
     border-radius: var(--radiu-btn);
     color: var(--color-dark-grey);
-    font-size: var(--font-body-default-size);
     font-weight: var(--font-weight-bold);
-    margin: 8px 0px;
+    font-size: inherit;
+    margin: 12px 0px;
+    font-weight: 600;
+    text-align: center;
 }
 
 .btn-yellow{
     background-color: var(--color-btn-yellow-bg-default);
 }
+
+.btn-yellow :active{
+    background-color: var(--color-btn-yellow-bg-enabled);
+    transition: ease-in 0.2s;
+}
+
+.btn-outline{
+    border: solid 2px var(--color-golden-yellow);
+    color:var(--color-golden-yellow);
+    background-color: transparent;
+}
+
+.btn-outline :active{
+    background-color: rgba(255, 255, 255, 0.334);
+    transition: ease-in 0.2s;
+}
+
+/* ----------CARD--------- */
+.card{
+    padding: 20px 0;
+    margin: 16px 0;
+}
+
+/* ----------FORM--------- */
+.form {
+    background-color: var(--color-form-bg-default);
+    padding:var(--padding-form);
+    border-radius: var(--radius-form);
+    color: var(--color-white);
+    margin:2px 4px;
+}
+
+input:focus{
+border: none;
+}
+
+.error-msg{
+    background-color: rgb(211, 63, 63);
+    padding:var(--padding-form);
+    border-radius: var(--radius-form);
+    color: var(--color-white);
+    margin: 10px 0px;
+    font-size: 14px;
+}
+

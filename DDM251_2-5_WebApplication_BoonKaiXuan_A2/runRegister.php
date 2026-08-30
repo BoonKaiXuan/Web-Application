@@ -13,7 +13,6 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-/* automatically assign a cusID */
 $fName = $_POST['firstName'];
 $lName = $_POST['lastName'];
 $cusEmail = strtolower($_POST['email']);
@@ -56,13 +55,21 @@ if (empty($fName) || empty($lName) || empty($cusEmail) || empty($cusNo) || empty
         $error_message = 'This email has been registered. Please sign in instead.';
         header("Location:register.php?error_message=" . $error_message);
     } else {
+        date_default_timezone_set('Asia/Kuala_Lumpur');
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $code = '';
+
+        for ($i = 0; $i < 6; $i++) {
+            $code .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        $uid = date('YmdHis') . "_" . $code;
 
         //---register customers
-        $insertSQL = "INSERT INTO customers (firstName, lastName, email, contactNo, password)
-VALUES ('$fName', '$lName', '$cusEmail', '$cusNo', '$cusPassW')";
+        $insertSQL = "INSERT INTO customers (customerID, firstName, lastName, email, contactNo, password)
+VALUES ('$uid', '$fName', '$lName', '$cusEmail', '$cusNo', '$cusPassW')";
 
         if ($conn->query($insertSQL) === TRUE) {
-            $_SESSION['email'] = $cusEmail;
+            $_SESSION['customerID'] = $uid;
             header("Location:survey.php");
         } else {
             $error_message = 'Registration failed. Please try again.';

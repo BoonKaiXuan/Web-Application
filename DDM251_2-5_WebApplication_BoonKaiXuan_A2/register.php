@@ -9,6 +9,9 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+if (isset($_GET['error_message'])) {
+    $error_message = $_GET['error_message'];
+}
 
 ?>
 
@@ -20,72 +23,71 @@ if ($conn->connect_error) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Tealive New Product Launch</title>
     <link rel="stylesheet" href="css/common.css">
-
+    <style>
+        .register-info {
+            margin: 40px 0;
+        }
+    </style>
 </head>
 
 <body class="bg-dark-purple">
     <div class="max-width">
 
         <header>
-            <h1>Seek, Sip & Win Big!</h1>
+            <h1 class="color-yellow">Seek, Sip & Win Big!</h1>
             <p>Register to find our hidden new drink to snag the BIG prize! Missed it? Don’t worry, you still walk away with a sweet treat.</p>
         </header>
-        <?php
-        echo $error_message;
-        ?>
+
         <div>
             <form action="runRegister.php" method="POST">
-                <div>
-                    <?php
-                    if (isset($_GET['error_message'])) {
-                        $error_message = $_GET['error_message'];
-                        echo "<p style='color:red;'>$error_message</p>";
-                    }
-                    ?>
+
+                <?php if (!empty($error_message)) { ?>
+                    <div class="error-msg">
+                        <?php echo htmlspecialchars($error_message); ?>
+                    </div>
+                <?php } ?>
+
+
+                <div class="register-info">
+                    <div class="row-flex direct-col">
+                        <label>*First Name:</label>
+                        <input class="form" type="text" name="firstName">
+                    </div>
+
+                    <div class="row-flex direct-col">
+                        <label>*Last Name:</label>
+                        <input class="form" type="text" name="lastName">
+                    </div>
+
+                    <div class="row-flex direct-col">
+                        <label>*Email:</label>
+                        <input class="form" type="text" name="email">
+                    </div>
+
+                    <div class="row-flex direct-col">
+                        <label>*Contact No.:</label>
+                        <input class="form" type="text" name="contactNo">
+                    </div>
+
+                    <div class="row-flex direct-col">
+                        <label>*Password:</label>
+                        <input class="form" type="password" name="password">
+                    </div>
+
+                    <div class="row-flex direct-col">
+                        <label>*Confirm Password:</label>
+                        <input class="form" type="password" name="confirmPassword">
+                    </div>
                 </div>
 
-                <div class="register_info">
-                    <div>
-                        <label>First Name:</label>
-                        <input type="text" name="firstName">
-                    </div>
-
-                    <div>
-                        <label>Last Name:</label>
-                        <input type="text" name="lastName">
-                    </div>
-
-                    <div>
-                        <label>Email:</label>
-                        <input type="text" name="email">
-                    </div>
-
-                    <div>
-                        <label>Contact No.:</label>
-                        <input type="text" name="contactNo">
-                    </div>
-
-                    <div>
-                        <label>Password:</label>
-                        <input type="password" name="password">
-                    </div>
-
-                    <div>
-                        <label>Confirm Password:</label>
-                        <input type="password" name="confirmPassword">
-                    </div>
-                </div>
-
                 <div>
-                    <input class="btn btn-yellow" type="submit" value="Create an Account">
+                    <button class="btn btn-yellow full-width" type="submit">Create an Account</button>
                 </div>
 
             </form>
-            <div>
-                <a href="login.php">
-                    Already Have An Account? Sign In Here.
-                </a>
-            </div>
+            <a class="txt-center" href="login.php">
+                Already Have An Account? Sign In Here.
+            </a>
 
         </div>
     </div>

@@ -6,6 +6,8 @@ $dbname = "tealive";
 
 session_start();
 
+$error_message = "";
+
 if (isset($_POST["email"]) && ($_POST["password"])) {
     $cusEmail = $_POST["email"];
     $cusPassword = $_POST["password"];
@@ -17,19 +19,24 @@ if (isset($_POST["email"]) && ($_POST["password"])) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    //Execute sql query
-    $sql = "SELECT * FROM customers WHERE email = '$cusEmail' AND password = '$cusPassword'";
-
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-
-        $_SESSION['email'] = $_POST['email'];
-        header("Location:survey.php");
+    if (empty($cusEmail) || empty($cusPassword)) {
+        $error_message = "*Please enter your Email and Password.";
     } else {
-        echo "User Not Found";
-    }
 
+        //Execute sql query
+        $sql = "SELECT * FROM customers WHERE email = '$cusEmail' AND password = '$cusPassword'";
+
+        $result = $conn->query($sql);
+        $customer = $result->fetch_assoc();
+
+        if ($result->num_rows > 0) {
+
+            $_SESSION['customerID'] = $customer['customerID'];
+            header("Location:survey.php");
+        } else {
+            $error_message = "*User not found. Please sign up.";
+        }
+    }
     $conn->close();
 }
 ?>
@@ -46,42 +53,43 @@ if (isset($_POST["email"]) && ($_POST["password"])) {
 
 </head>
 
-<body class="bg-dark-purple">
+<body class="bg-dark-purple bg-cup">
     <div class="max-width">
-        <header>
-            <h1>Welcome Back!</h1>
+        <header class="txt-center">
+            <h1 class="color-yellow">Welcome Back!</h1>
             <p>Seek, Sip & Win Big! Sign in to explore our new product and claim your rewards!</p>
         </header>
 
         <div>
             <form taget="_self" method="POST">
 
-                <!--         <div class="error-msg">
-                    <?php
-                    echo $error_message;
-                    ?>
-                </div> -->
                 <div class="login_info">
 
-                    <div>
+                    <?php if (!empty($error_message)) { ?>
+                        <div class="error-msg">
+                            <?php echo htmlspecialchars($error_message); ?>
+                        </div>
+                    <?php } ?>
+
+                    <div class="row-flex direct-col">
                         <label>Email:</label>
-                        <input type="text" name="email">
+                        <input class="form" type="text" name="email">
                     </div>
 
-                    <div>
+                    <div class="row-flex direct-col margin-btm">
                         <label>Password:</label>
-                        <input type="password" name="password">
-
+                        <input class="form" type="password" name="password">
                     </div>
 
                     <div>
-                        <input class="btn btn-yellow" type="submit" value="Sign In">
+                        <button class="btn btn-yellow full-width" type="submit">Go!</button>
                     </div>
-
+                    <a class="txt-center" href="register.php">
+                        Don't Have An Account? Sign Up Here!
+                    </a>
+                </div>
             </form>
-            <a href="register.php">
-                Don't Have An Account? Sign Up Here!
-            </a>
+
         </div>
     </div>
 </body>
