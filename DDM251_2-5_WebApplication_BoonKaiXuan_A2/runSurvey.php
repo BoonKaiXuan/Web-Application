@@ -44,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $result_img = "img/result-refreshing.png";
     }
 
-    //Update the survey result in the database
     $updateSQL = "UPDATE customers SET totalScore = '$total_score', drinkResult = '$result', drinkRecommend = '$recommendation' WHERE customerID = '$cusID'";
 
 
@@ -78,6 +77,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border: none;
             border-top: 2px dashed #ffffff;
         }
+
+        .survey_result {
+            animation: prize-pop 0.3s ease;
+        }
+
+        @keyframes prize-pop {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
     </style>
 </head>
 
@@ -92,8 +107,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <hr class="divider">
         <!-- Play game -->
         <div class="game">
-            <h3>Next Challenge:<br> Find the Hidden New Product!</h3>
+            <h3 class="color-yellow">Next Challenge:<br> Find the Hidden New Product!</h3>
             <p>Can you spot our secret new product?</p>
+            <p>Hint: Find the Osmanthus 👀</p>
             <a class="btn btn-yellow full-width" href="game.php">
                 Begin the Hunt!
             </a>

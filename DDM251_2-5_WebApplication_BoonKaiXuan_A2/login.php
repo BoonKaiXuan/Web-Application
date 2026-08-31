@@ -8,7 +8,7 @@ session_start();
 
 $error_message = "";
 
-if (isset($_POST["email"]) && ($_POST["password"])) {
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $cusEmail = $_POST["email"];
     $cusPassword = $_POST["password"];
 
@@ -32,7 +32,12 @@ if (isset($_POST["email"]) && ($_POST["password"])) {
         if ($result->num_rows > 0) {
 
             $_SESSION['customerID'] = $customer['customerID'];
-            header("Location:survey.php");
+
+            if (empty($customer["drinkRecommend"])) {
+                header("Location: survey.php");
+            } else {
+                header("Location: profile.php");
+            }
         } else {
             $error_message = "*User not found. Please sign up.";
         }
@@ -72,12 +77,12 @@ if (isset($_POST["email"]) && ($_POST["password"])) {
                     <?php } ?>
 
                     <div class="row-flex direct-col">
-                        <label>Email:</label>
+                        <label name="email">Email:</label>
                         <input class="form" type="text" name="email">
                     </div>
 
                     <div class="row-flex direct-col margin-btm">
-                        <label>Password:</label>
+                        <label name="password">Password:</label>
                         <input class="form" type="password" name="password">
                     </div>
 
@@ -92,6 +97,7 @@ if (isset($_POST["email"]) && ($_POST["password"])) {
 
         </div>
     </div>
+    <img class="footer-img" src="img/Tealive_logo.svg" alt="Tealive Logo" width="100%">
 </body>
 
 </html>

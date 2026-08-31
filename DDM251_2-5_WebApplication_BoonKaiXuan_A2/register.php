@@ -27,6 +27,15 @@ if (isset($_GET['error_message'])) {
         .register-info {
             margin: 40px 0;
         }
+
+        .footer-img {
+            margin-top: 20px;
+            position: fixed;
+        }
+
+        body {
+            margin-top: 50px 0 0 0;
+        }
     </style>
 </head>
 
@@ -50,32 +59,32 @@ if (isset($_GET['error_message'])) {
 
                 <div class="register-info">
                     <div class="row-flex direct-col">
-                        <label>*First Name:</label>
+                        <label name="firstName">*First Name:</label>
                         <input class="form" type="text" name="firstName">
                     </div>
 
                     <div class="row-flex direct-col">
-                        <label>*Last Name:</label>
+                        <label name="lastName">*Last Name:</label>
                         <input class="form" type="text" name="lastName">
                     </div>
 
                     <div class="row-flex direct-col">
-                        <label>*Email:</label>
+                        <label name="email">*Email:</label>
                         <input class="form" type="text" name="email">
                     </div>
 
                     <div class="row-flex direct-col">
-                        <label>*Contact No.:</label>
+                        <label name="contactNo">*Contact No.:</label>
                         <input class="form" type="text" name="contactNo">
                     </div>
 
                     <div class="row-flex direct-col">
-                        <label>*Password:</label>
+                        <label name="password">*Password:</label>
                         <input class="form" type="password" name="password">
                     </div>
 
                     <div class="row-flex direct-col">
-                        <label>*Confirm Password:</label>
+                        <label name="confirmPassword">*Confirm Password:</label>
                         <input class="form" type="password" name="confirmPassword">
                     </div>
                 </div>
@@ -88,9 +97,9 @@ if (isset($_GET['error_message'])) {
             <a class="txt-center" href="login.php">
                 Already Have An Account? Sign In Here.
             </a>
-
         </div>
     </div>
+    <img class="footer-img" src="img/Tealive_logo.svg" alt="Tealive Logo" width="100%">
 </body>
 
 </html>

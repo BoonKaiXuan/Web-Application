@@ -65,7 +65,7 @@ if (!isset($_SESSION['customerID'])) {
 
                 <div class="btns next">
                     <button class="btn btn-yellow" type="button" onclick="nextStep(1, 2)">
-                        Next
+                        Next >
                     </button>
                 </div>
 
@@ -96,9 +96,10 @@ if (!isset($_SESSION['customerID'])) {
                     <label for="q2_d">🚀 I love discovering new flavours</label>
                 </div>
                 <div class="btns row-flex space-btwn">
-                    <button class="btn btn-outline" type="button" onclick="prevStep(2, 1)">Back</button>
+                    <button class="btn btn-outline" type="button" onclick="prevStep(2, 1)">
+                        < Back</button>
 
-                    <button class="btn btn-yellow next" type="button" onclick="nextStep(2, 3)">Next</button>
+                            <button class="btn btn-yellow next" type="button" onclick="nextStep(2, 3)">Next ></button>
                 </div>
 
             </div>
@@ -128,9 +129,10 @@ if (!isset($_SESSION['customerID'])) {
                     <label for="q3_d">🌺 Floral Fruit Tea</label>
                 </div>
 
-                <div class="btns">
-                    <button class="btn btn-outline" type="button" onclick="prevStep(3, 2)">Back</button>
-                    <button class="btn btn-yellow full-width" type="submit" onclick="return validateStep(3)">Show Me My Drink!</button>
+                <div class="btns row-flex space-btwn">
+                    <button class="btn btn-outline" type="button" onclick="prevStep(3, 2)">
+                        < Back</button>
+                            <button class="btn btn-yellow" type="submit" onclick="return validateStep(3)">Show My Drink!</button>
                 </div>
 
             </div>
