@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Tealive Match!</title>
+    <title>Your Tealive Match! - Tealive New Product Launch 2026</title>
     <link rel="stylesheet" href="css/common.css">
 
     <style>
@@ -109,7 +109,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <div class="game">
             <h3 class="color-yellow">Next Challenge:<br> Find the Hidden New Product!</h3>
             <p>Can you spot our secret new product?</p>
-            <p>Hint: Find the Osmanthus 👀</p>
+            <p>Hint: Remember my look & Find the Osmanthus 👀</p>
+            <img src="img/index-prod.png" alt="Lychee Drink" width="100%">
             <a class="btn btn-yellow full-width" href="game.php">
                 Begin the Hunt!
             </a>

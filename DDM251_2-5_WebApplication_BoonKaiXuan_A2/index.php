@@ -18,7 +18,7 @@ if ($conn->connect_error) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome - Tealive New Product Launch</title>
+    <title>Welcome - Tealive New Product Launch 2026</title>
     <link rel="stylesheet" href="css/common.css">
 </head>
 
