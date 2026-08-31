@@ -41,6 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 if (empty($customer["drinkRecommend"])) {
                     header("Location: survey.php");
+                } else if (empty($customer["prizeType"])) {
+                    header("Location: game.php");
                 } else {
                     header("Location: profile.php");
                 }
@@ -83,13 +85,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <?php } ?>
 
                     <div class="row-flex direct-col">
-                        <label name="email">Email:</label>
-                        <input class="form" type="text" name="email" placeholder="e.g. example@gmail.com" value="<?php echo htmlspecialchars($cusEmail); ?>">
+                        <label for="email">Email:</label>
+                        <input class="form" type="text" name="email" id="email" placeholder="e.g. example@gmail.com" value="<?php echo htmlspecialchars($cusEmail); ?>">
                     </div>
 
                     <div class="row-flex direct-col margin-btm">
-                        <label name="password">Password:</label>
-                        <input class="form" type="password" name="password" placeholder="Minimum 8 characters">
+                        <label for="password">Password:</label>
+                        <input class="form" type="password" name="password" id="password" placeholder="Minimum 8 characters">
                     </div>
 
                     <div>

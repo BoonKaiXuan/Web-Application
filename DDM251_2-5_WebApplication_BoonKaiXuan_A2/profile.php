@@ -20,19 +20,26 @@ $sql = "SELECT * FROM customers WHERE customerID = '$cusID'";
 $result = $conn->query($sql);
 $customer = $result->fetch_assoc();
 
-$resultImages = [
-    "Classic Comfort" => "img/result-classic.png",
-    "Sweet Explorer" => "img/result-sweet.png",
-    "Refreshing Adventurer" => "img/result-refreshing.png"
-];
-
-$drinkResult = $customer["drinkResult"];
-$resultImg = $resultImages[$drinkResult];
-
-if ($customer['prizeType'] == "big") {
-    $voucherImg = "img/voucher-big.png";
+if (empty($customer["drinkRecommend"])) {
+    header("Location: survey.php");
+} else if (empty($customer["prizeType"])) {
+    header("Location: game.php");
 } else {
-    $voucherImg = "img/voucher-small.png";
+
+    $resultImages = [
+        "Classic Comfort" => "img/result-classic.png",
+        "Sweet Explorer" => "img/result-sweet.png",
+        "Refreshing Adventurer" => "img/result-refreshing.png"
+    ];
+
+    $drinkResult = $customer["drinkResult"];
+    $resultImg = $resultImages[$drinkResult];
+
+    if ($customer['prizeType'] == "big") {
+        $voucherImg = "img/voucher-big.png";
+    } else {
+        $voucherImg = "img/voucher-small.png";
+    }
 }
 ?>
 

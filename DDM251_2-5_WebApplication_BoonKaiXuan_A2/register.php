@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         //---Password length
     } else if (strlen($cusPassW) < 8) {
-
+        $error_message = 'Password must be at least 8 characters long.';
         //---confirm Password
     } else if ($confirmPassW !== $cusPassW) {
         $error_message = 'Password does not match.';
@@ -127,33 +127,33 @@ mysqli_close($conn);
 
                 <div class="register-info">
                     <div class="row-flex direct-col">
-                        <label name="firstName">*First Name:</label>
-                        <input class="form" type="text" name="firstName" placeholder="Please enter your First Name" value="<?php echo htmlspecialchars($fName); ?>">
+                        <label for="firstName">*First Name:</label>
+                        <input class="form" type="text" name="firstName" id="firstName" placeholder="Please enter your First Name" value="<?php echo htmlspecialchars($fName); ?>">
                     </div>
 
                     <div class="row-flex direct-col">
-                        <label name="lastName">*Last Name:</label>
-                        <input class="form" type="text" name="lastName" placeholder="Please enter your Last Name" value="<?php echo htmlspecialchars($lName); ?>">
+                        <label for="lastName">*Last Name:</label>
+                        <input class="form" type="text" name="lastName" id="lastName" placeholder="Please enter your Last Name" value="<?php echo htmlspecialchars($lName); ?>">
                     </div>
 
                     <div class="row-flex direct-col">
-                        <label name="email">*Email:</label>
-                        <input class="form" type="text" name="email" placeholder="e.g. example@gmail.com" value="<?php echo htmlspecialchars($cusEmail); ?>">
+                        <label for="email">*Email:</label>
+                        <input class="form" type="text" name="email" id="email" placeholder="e.g. example@gmail.com" value="<?php echo htmlspecialchars($cusEmail); ?>">
                     </div>
 
                     <div class="row-flex direct-col">
-                        <label name="contactNo">*Contact No.:</label>
-                        <input class="form" type="text" name="contactNo" placeholder="e.g. 0123456789" value="<?php echo htmlspecialchars($cusNo); ?>">
+                        <label for="contactNo">*Contact No.:</label>
+                        <input class="form" type="text" name="contactNo" id="contactNo" placeholder="e.g. 0123456789" value="<?php echo htmlspecialchars($cusNo); ?>">
                     </div>
 
                     <div class="row-flex direct-col">
-                        <label name="password">*Password:</label>
-                        <input class="form" type="password" name="password" placeholder="Minimum 8 characters">
+                        <label for="password">*Password:</label>
+                        <input class="form" type="password" name="password" id="password" placeholder="Minimum 8 characters">
                     </div>
 
                     <div class="row-flex direct-col">
-                        <label name="confirmPassword">*Confirm Password:</label>
-                        <input class="form" type="password" name="confirmPassword">
+                        <label for="confirmPassword">*Confirm Password:</label>
+                        <input class="form" type="password" name="confirmPassword" id="confirmPassword">
                     </div>
                 </div>
 

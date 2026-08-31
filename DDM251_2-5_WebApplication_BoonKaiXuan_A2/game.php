@@ -15,6 +15,28 @@ if (!$conn) {
 if (!isset($_SESSION['customerID'])) {
     header("Location: index.php");
 }
+$cusID = $_SESSION["customerID"];
+
+//only one chance
+$sql = "SELECT drinkRecommend, prizeType FROM customers WHERE customerID = '$cusID'";
+$result = $conn->query($sql);
+
+if (!$result || $result->num_rows === 0) {
+    session_destroy();
+    header("Location: index.php");
+}
+
+$customer = $result->fetch_assoc();
+
+//survey not done
+if (empty($customer["drinkRecommend"])) {
+    header("Location: survey.php");
+}
+
+if (!empty($customer["prizeType"])) {
+    header("Location: profile.php");
+}
+
 ?>
 
 <!DOCTYPE html>

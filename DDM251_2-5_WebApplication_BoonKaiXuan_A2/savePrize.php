@@ -23,7 +23,7 @@ if (!isset($_SESSION['customerID'])) {
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $sql = "UPDATE customers SET prizeType = '$prizeType', prizeStatus = 'awarded', awardedDate = NOW() WHERE customerID = '$cusID'";
+    $sql = "UPDATE customers SET prizeType = '$prizeType', prizeStatus = 'awarded', awardedDate = NOW() WHERE customerID = '$cusID' AND prizeType IS NULL";
 
     $conn->query($sql);
 
