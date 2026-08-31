@@ -128,27 +128,27 @@ mysqli_close($conn);
                 <div class="register-info">
                     <div class="row-flex direct-col">
                         <label name="firstName">*First Name:</label>
-                        <input class="form" type="text" name="firstName" value="<?php echo htmlspecialchars($fName); ?>">
+                        <input class="form" type="text" name="firstName" placeholder="Please enter your First Name" value="<?php echo htmlspecialchars($fName); ?>">
                     </div>
 
                     <div class="row-flex direct-col">
                         <label name="lastName">*Last Name:</label>
-                        <input class="form" type="text" name="lastName" value="<?php echo htmlspecialchars($lName); ?>">
+                        <input class="form" type="text" name="lastName" placeholder="Please enter your Last Name" value="<?php echo htmlspecialchars($lName); ?>">
                     </div>
 
                     <div class="row-flex direct-col">
                         <label name="email">*Email:</label>
-                        <input class="form" type="text" name="email" value="<?php echo htmlspecialchars($cusEmail); ?>">
+                        <input class="form" type="text" name="email" placeholder="e.g. example@gmail.com" value="<?php echo htmlspecialchars($cusEmail); ?>">
                     </div>
 
                     <div class="row-flex direct-col">
                         <label name="contactNo">*Contact No.:</label>
-                        <input class="form" type="text" name="contactNo" value="<?php echo htmlspecialchars($cusNo); ?>">
+                        <input class="form" type="text" name="contactNo" placeholder="e.g. 0123456789" value="<?php echo htmlspecialchars($cusNo); ?>">
                     </div>
 
                     <div class="row-flex direct-col">
                         <label name="password">*Password:</label>
-                        <input class="form" type="password" name="password">
+                        <input class="form" type="password" name="password" placeholder="Minimum 8 characters">
                     </div>
 
                     <div class="row-flex direct-col">

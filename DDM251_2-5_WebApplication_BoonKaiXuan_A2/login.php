@@ -7,6 +7,7 @@ $dbname = "tealive";
 session_start();
 
 $error_message = "";
+$cusEmail = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $cusEmail = $_POST["email"];
@@ -24,26 +25,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
 
         //Execute sql query
-        $sql = "SELECT * FROM customers WHERE email = '$cusEmail' AND password = '$cusPassword'";
+        $sql = "SELECT * FROM customers WHERE email = '$cusEmail'";
 
         $result = $conn->query($sql);
-        $customer = $result->fetch_assoc();
 
-        if ($result->num_rows > 0) {
-
-            $_SESSION['customerID'] = $customer['customerID'];
-
-            if (empty($customer["drinkRecommend"])) {
-                header("Location: survey.php");
-            } else {
-                header("Location: profile.php");
-            }
+        if ($result->num_rows == 0) {
+            $error_message = "*Email is not registered.Please sign up.";
         } else {
-            $error_message = "*User not found. Please sign up.";
+            $customer = $result->fetch_assoc();
+
+            if ($cusPassword !== $customer['password']) {
+                $error_message = "*Incorrect password. Please try again.";
+            } else {
+                $_SESSION['customerID'] = $customer['customerID'];
+
+                if (empty($customer["drinkRecommend"])) {
+                    header("Location: survey.php");
+                } else {
+                    header("Location: profile.php");
+                }
+            }
         }
     }
     $conn->close();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -78,12 +84,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                     <div class="row-flex direct-col">
                         <label name="email">Email:</label>
-                        <input class="form" type="text" name="email">
+                        <input class="form" type="text" name="email" placeholder="e.g. example@gmail.com" value="<?php echo htmlspecialchars($cusEmail); ?>">
                     </div>
 
                     <div class="row-flex direct-col margin-btm">
                         <label name="password">Password:</label>
-                        <input class="form" type="password" name="password">
+                        <input class="form" type="password" name="password" placeholder="Minimum 8 characters">
                     </div>
 
                     <div>
