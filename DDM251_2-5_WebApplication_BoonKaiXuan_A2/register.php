@@ -4,14 +4,82 @@ $username = "tealive";
 $password = "5spY@)Hmeg]XrKeS";
 $dbname = "tealive";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+session_start();
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Create connection
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
 }
-if (isset($_GET['error_message'])) {
-    $error_message = $_GET['error_message'];
+
+$error_message = "";
+$fName = "";
+$lName = "";
+$cusEmail = "";
+$cusNo = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    $fName = $_POST['firstName'];
+    $lName = $_POST['lastName'];
+    $cusEmail = strtolower($_POST['email']);
+    $cusNo = $_POST['contactNo'];
+    $cusPassW = $_POST['password'];
+    $confirmPassW = $_POST['confirmPassword'];
+
+    //---All fields empty
+    if (empty($fName) || empty($lName) || empty($cusEmail) || empty($cusNo) || empty($cusPassW)) {
+        $error_message = 'Please fill in all the fields.';
+
+        //---Email format
+    } else if (!filter_var($cusEmail, FILTER_VALIDATE_EMAIL)) {
+        $error_message = 'Please enter a valid email address (e.g. name@example.com).';
+
+        //---Phone No format
+    } else if (!is_numeric($cusNo)) {
+        $error_message = 'Please enter a valid contact number.';
+
+        //---Password length
+    } else if (strlen($cusPassW) < 8) {
+
+        //---confirm Password
+    } else if ($confirmPassW !== $cusPassW) {
+        $error_message = 'Password does not match.';
+    } else {
+
+        //---check if email alr exists
+        $checkEmailSQL = "SELECT email FROM customers WHERE email = '$cusEmail'";
+
+        $result = $conn->query($checkEmailSQL);
+
+        if ($result->num_rows > 0) {
+            $error_message = 'This email has been registered. Please sign in instead.';
+        } else {
+            date_default_timezone_set('Asia/Kuala_Lumpur');
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $code = '';
+
+            for ($i = 0; $i < 6; $i++) {
+                $code .= $characters[rand(0, strlen($characters) - 1)];
+            }
+            $uid = date('YmdHis') . "_" . $code;
+
+            //---register customers
+            $insertSQL = "INSERT INTO customers (customerID, firstName, lastName, email, contactNo, password)
+VALUES ('$uid', '$fName', '$lName', '$cusEmail', '$cusNo', '$cusPassW')";
+
+            if ($conn->query($insertSQL) === TRUE) {
+                $_SESSION['customerID'] = $uid;
+                header("Location:survey.php");
+            } else {
+                $error_message = 'Registration failed. Please try again.';
+                header("Location:register.php");
+            }
+        }
+    }
 }
+mysqli_close($conn);
 
 ?>
 
@@ -48,7 +116,7 @@ if (isset($_GET['error_message'])) {
         </header>
 
         <div>
-            <form action="runRegister.php" method="POST">
+            <form action="register.php" method="POST">
 
                 <?php if (!empty($error_message)) { ?>
                     <div class="error-msg">
@@ -60,22 +128,22 @@ if (isset($_GET['error_message'])) {
                 <div class="register-info">
                     <div class="row-flex direct-col">
                         <label name="firstName">*First Name:</label>
-                        <input class="form" type="text" name="firstName">
+                        <input class="form" type="text" name="firstName" value="<?php echo htmlspecialchars($fName); ?>">
                     </div>
 
                     <div class="row-flex direct-col">
                         <label name="lastName">*Last Name:</label>
-                        <input class="form" type="text" name="lastName">
+                        <input class="form" type="text" name="lastName" value="<?php echo htmlspecialchars($lName); ?>">
                     </div>
 
                     <div class="row-flex direct-col">
                         <label name="email">*Email:</label>
-                        <input class="form" type="text" name="email">
+                        <input class="form" type="text" name="email" value="<?php echo htmlspecialchars($cusEmail); ?>">
                     </div>
 
                     <div class="row-flex direct-col">
                         <label name="contactNo">*Contact No.:</label>
-                        <input class="form" type="text" name="contactNo">
+                        <input class="form" type="text" name="contactNo" value="<?php echo htmlspecialchars($cusNo); ?>">
                     </div>
 
                     <div class="row-flex direct-col">
