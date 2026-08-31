@@ -13,7 +13,7 @@ if (!$conn) {
 }
 
 if (!isset($_SESSION['customerID'])) {
-    header("Location: login.php");
+    header("Location: index.php");
 }
 ?>
 

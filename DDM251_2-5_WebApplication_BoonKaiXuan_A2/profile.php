@@ -10,9 +10,9 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-/* if (!isset($_SESSION['customerID'])) {
-    header("Location: login.php");
-} */
+if (!isset($_SESSION['customerID'])) {
+    header("Location: index.php");
+}
 
 $voucherImg = "";
 $cusID = $_SESSION['customerID'];

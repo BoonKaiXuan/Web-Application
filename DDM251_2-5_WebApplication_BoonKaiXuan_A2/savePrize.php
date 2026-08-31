@@ -17,8 +17,8 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-if (!isset($_SESSION['email'])) {
-    header("Location: login.php");
+if (!isset($_SESSION['customerID'])) {
+    header("Location: index.php");
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
