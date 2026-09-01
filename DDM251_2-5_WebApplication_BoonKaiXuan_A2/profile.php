@@ -14,7 +14,6 @@ if (!isset($_SESSION['customerID'])) {
     header("Location: index.php");
 }
 
-$voucherImg = "";
 $cusID = $_SESSION['customerID'];
 $sql = "SELECT * FROM customers WHERE customerID = '$cusID'";
 $result = $conn->query($sql);
@@ -71,7 +70,7 @@ if (empty($customer["drinkRecommend"])) {
         </div>
         <div>
             <h1>Hello,
-                <?php echo $customer['lastName']; ?>
+                <?php echo $customer['firstName']; ?>
             </h1>
             <p><?php echo $customer['email']; ?></p>
         </div>
@@ -99,9 +98,8 @@ if (empty($customer["drinkRecommend"])) {
                 alt="<?php echo $drinkResult; ?>"
                 class="result-img">
 
-            <p>
-                <br><?php echo $customer['drinkRecommend']; ?>
-            </p>
+            <p>Recommendation:</p>
+            <p><?php echo $customer['drinkRecommend']; ?></p>
         </section>
 
         <button class="btn btn-yellow full-width" type="submit" onclick="confirmLogout()">

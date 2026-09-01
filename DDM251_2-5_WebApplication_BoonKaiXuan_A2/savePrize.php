@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conn->query($sql);
 
     if ($conn->affected_rows === 1) {
-        header("Location: profile.php");
+        header("Location: prizePanel.php?prizeType=$prizeType");
         exit;
     } else {
         echo "You have already claimed a prize";

@@ -32,15 +32,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $total_score = $q1_score + $q2_score + $q3_score;
     if ($total_score <= 3) {
         $result = "Classic Comfort";
-        $recommendation = "Recommendation: <br> Brown Sugar Pearl Milk Tea / Roasted Milk Tea with Grass Jelly";
+        $recommendation = "Brown Sugar Pearl Milk Tea / Roasted Milk Tea with Grass Jelly";
         $result_img = "img/result-classic.png";
     } else if ($total_score <= 6) {
         $result = "Sweet Explorer";
-        $recommendation = "Recommendation: <br>Strawberry Pudding Smoothie, Mango Pudding Smoothie, Snowy Da Hong Pao Caramel Smoothie";
+        $recommendation = "Strawberry Pudding Smoothie, Mango Pudding Smoothie, Snowy Da Hong Pao Caramel Smoothie";
         $result_img = "img/result-sweet.png";
     } else {
         $result = "Refreshing Adventurer";
-        $recommendation = "Recommendation:<br> Watermelon Smoothie, Mulberry Burst Tea Konjac, Mango Ice Shaken Tea";
+        $recommendation = "Watermelon Smoothie, Mulberry Burst Tea Konjac, Mango Ice Shaken Tea";
         $result_img = "img/result-refreshing.png";
     }
 
@@ -101,6 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h2>Your Tealive Match is In!</h2>
         <div class="survey_result">
             <img src="<?php echo ($result_img); ?>" alt="<?php echo ($result); ?>">
+            <p>Recommendation:</p>
             <p><?php echo $recommendation; ?></p>
         </div>
 
