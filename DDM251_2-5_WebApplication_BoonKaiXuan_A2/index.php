@@ -24,15 +24,13 @@ if ($conn->connect_error) {
 
 <body class="bg-dark-purple">
     <div class="max-width">
-        <header class="card">
-            <h1>
-                Seek, Sip & Win Big!
-            </h1>
+        <header class="card txt-center">
+            <img src="img/index_logo.png" alt="Event Logo" width="100%">
             <h3>
-                Welcome to Tealive New Product Launch 2026.
+                Welcome to<br> Tealive New Product Launch 2026.
             </h3>
             <p>
-                Discover your perfect Tealive drink, hunt for our hidden new product, and stand a chance to win exciting rewards!
+                Discover your perfect Tealive drink, Hunt for hidden new product, and Win exciting rewards!
             </p>
         </header>
         <img src="img/index-prod.png" alt="Lychee Drink" width="100%">

@@ -37,8 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $error_message = 'Please enter a valid email address (e.g. name@example.com).';
 
         //---Phone No format & length
-    } else if (!is_numeric($cusNo) || strlen($cusNo) != 10) {
-        $error_message = 'Please enter a valid contact number (10 digits).';
+    } else if (!is_numeric($cusNo) || (strlen($cusNo) < 10 || strlen($cusNo) > 11)) {
+        $error_message = 'Please enter a valid contact number (10 or 11 digits).';
 
         //---Password length
     } else if (strlen($cusPassW) < 8) {
